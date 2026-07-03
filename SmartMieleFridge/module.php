@@ -17,8 +17,8 @@ class SmartMieleFridge extends IPSModule
         $this->RegisterVariableInteger('Status', 'Status', '', 10);
         $this->RegisterVariableString('StatusText', 'Status (Text)', '', 15);
         
-        $this->RegisterVariableFloat('Temperature1', 'Ist-Temperatur (Zone 1)', '', 20);
-        $this->RegisterVariableFloat('TargetTemperature1', 'Ziel-Temperatur (Zone 1)', '', 25);
+        $this->RegisterVariableInteger('Temperature1', 'Ist-Temperatur (Zone 1)', '', 20);
+        $this->RegisterVariableInteger('TargetTemperature1', 'Ziel-Temperatur (Zone 1)', '', 25);
         $this->EnableAction('TargetTemperature1');
         
         $this->RegisterVariableBoolean('DoorOpen', 'Tür geöffnet', '~Alert', 30);
@@ -43,9 +43,9 @@ class SmartMieleFridge extends IPSModule
             'SUFFIX' => ' °C',
             'ICON' => 'Temperature',
             'PRESENTATION' => 1, // Slider
-            'MIN' => 1.0,
-            'MAX' => 9.0,
-            'STEP' => 1.0
+            'MIN' => 1,
+            'MAX' => 9,
+            'STEP' => 1
         ]);
     }
 
@@ -75,10 +75,10 @@ class SmartMieleFridge extends IPSModule
             }
 
             if (isset($state['temperature'][0]['value_raw'])) {
-                $this->SetValue('Temperature1', (float)$state['temperature'][0]['value_raw']);
+                $this->SetValue('Temperature1', (int)$state['temperature'][0]['value_raw']);
             }
             if (isset($state['targetTemperature'][0]['value_raw'])) {
-                $this->SetValue('TargetTemperature1', (float)$state['targetTemperature'][0]['value_raw']);
+                $this->SetValue('TargetTemperature1', (int)$state['targetTemperature'][0]['value_raw']);
             }
             
             if (isset($state['signalDoor'])) {
