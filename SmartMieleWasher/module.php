@@ -198,13 +198,9 @@ class SmartMieleWasher extends IPSModule
                 $startTime = @$this->GetValue('StartTime');
                 $finishTime = @$this->GetValue('FinishTime');
             } else if ($statusRaw == 5) { // In Use
-                $newStart = time() - ($elapsedMinutes * 60);
-                $oldStart = @$this->GetValue('StartTime');
-                $startTime = (abs($newStart - $oldStart) < 180 && $oldStart > 0) ? $oldStart : $newStart;
-                
-                $newFinish = time() + ($remMinutes * 60);
-                $oldFinish = @$this->GetValue('FinishTime');
-                $finishTime = (abs($newFinish - $oldFinish) < 180 && $oldFinish > 0) ? $oldFinish : $newFinish;
+                $now = (int)(floor(time() / 60) * 60); // Strip seconds to prevent UI jitter
+                $startTime = $now - ($elapsedMinutes * 60);
+                $finishTime = $now + ($remMinutes * 60);
                 
                 $total = $elapsedMinutes + $remMinutes;
                 $progress = ($total > 0) ? (int)round(($elapsedMinutes / $total) * 100) : 0;
