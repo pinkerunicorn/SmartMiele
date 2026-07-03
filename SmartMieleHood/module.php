@@ -14,7 +14,7 @@ class SmartMieleHood extends IPSModule
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
         
         // Variables
-        $this->RegisterVariableInteger('Status', 'Status', '', 10);
+        $this->RegisterVariableString('StatusText', 'Status', '', 10);
         $this->RegisterVariableBoolean('Light', 'Licht', '~Switch', 20);
         $this->EnableAction('Light');
         
@@ -27,7 +27,7 @@ class SmartMieleHood extends IPSModule
         parent::ApplyChanges();
 
         // Symcon 8 Custom Presentations
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), [
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             'ICON' => 'Information'
         ]);
 
@@ -62,9 +62,8 @@ class SmartMieleHood extends IPSModule
         if (isset($deviceData['state'])) {
             $state = $deviceData['state'];
 
-            // Status
-            if (isset($state['status']['value_raw'])) {
-                $this->SetValue('Status', (int)$state['status']['value_raw']);
+            if (isset($state['status']['value_localized'])) {
+                $this->SetValue('StatusText', (string)$state['status']['value_localized']);
             }
 
             // Light (Miele API: 1=On, 2=Off)

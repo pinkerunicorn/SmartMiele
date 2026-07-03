@@ -14,8 +14,7 @@ class SmartMieleFridge extends IPSModule
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
         
         // Variables
-        $this->RegisterVariableInteger('Status', 'Status', '', 10);
-        $this->RegisterVariableString('StatusText', 'Status (Text)', '', 15);
+        $this->RegisterVariableString('StatusText', 'Status', '', 15);
         
         $this->RegisterVariableFloat('Temp1', 'Ist-Temperatur (Zone 1)', '', 20);
         $this->RegisterVariableFloat('TargetTemp1', 'Ziel-Temperatur (Zone 1)', '', 25);
@@ -29,7 +28,7 @@ class SmartMieleFridge extends IPSModule
         parent::ApplyChanges();
 
         // Symcon 8 Custom Presentations
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), [
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             'ICON' => 'Information'
         ]);
         
@@ -65,9 +64,8 @@ class SmartMieleFridge extends IPSModule
         if (isset($deviceData['state'])) {
             $state = $deviceData['state'];
 
-            if (isset($state['status']['value_raw'])) {
-                $this->SetValue('Status', (int)$state['status']['value_raw']);
-                $this->SetValue('StatusText', (string)($state['status']['value_localized'] ?? ''));
+            if (isset($state['status']['value_localized'])) {
+                $this->SetValue('StatusText', (string)$state['status']['value_localized']);
             }
 
             if (isset($state['temperature'][0]['value_raw'])) {

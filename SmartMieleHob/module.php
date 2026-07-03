@@ -15,15 +15,14 @@ class SmartMieleHob extends IPSModule
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
         
         // Variables
-        $this->RegisterVariableInteger('Status', 'Status', '', 10);
-        $this->RegisterVariableString('StatusText', 'Status (Text)', '', 15);
+        $this->RegisterVariableString('StatusText', 'Status', '', 10);
     }
 
     public function ApplyChanges()
     {
         parent::ApplyChanges();
 
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), [
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             'ICON' => 'Information'
         ]);
 
@@ -58,9 +57,8 @@ class SmartMieleHob extends IPSModule
         if (isset($deviceData['state'])) {
             $state = $deviceData['state'];
 
-            if (isset($state['status']['value_raw'])) {
-                $this->SetValue('Status', (int)$state['status']['value_raw']);
-                $this->SetValue('StatusText', (string)($state['status']['value_localized'] ?? ''));
+            if (isset($state['status']['value_localized'])) {
+                $this->SetValue('StatusText', (string)$state['status']['value_localized']);
             }
 
             if (isset($state['plateStep']) && is_array($state['plateStep'])) {
