@@ -59,15 +59,15 @@ class SmartMieleHob extends IPSModule
             $state = $deviceData['state'];
 
             if (isset($state['status']['value_raw'])) {
-                $this->SetValue('Status', $state['status']['value_raw']);
-                $this->SetValue('StatusText', $state['status']['value_localized'] ?? '');
+                $this->SetValue('Status', (int)$state['status']['value_raw']);
+                $this->SetValue('StatusText', (string)($state['status']['value_localized'] ?? ''));
             }
 
             if (isset($state['plateStep']) && is_array($state['plateStep'])) {
                 $plates = $this->ReadPropertyInteger('PlateCount');
                 for ($i = 0; $i < $plates; $i++) {
                     if (isset($state['plateStep'][$i]['value_raw'])) {
-                        $this->SetValue('Plate' . ($i + 1), $state['plateStep'][$i]['value_raw']);
+                        $this->SetValue('Plate' . ($i + 1), (int)$state['plateStep'][$i]['value_raw']);
                     }
                 }
             }

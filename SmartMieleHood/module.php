@@ -64,18 +64,18 @@ class SmartMieleHood extends IPSModule
 
             // Status
             if (isset($state['status']['value_raw'])) {
-                $this->SetValue('Status', $state['status']['value_raw']);
+                $this->SetValue('Status', (int)$state['status']['value_raw']);
             }
 
             // Light (Miele API: 1=On, 2=Off)
             if (isset($state['light'])) {
                 $isLightOn = ($state['light'] == 1);
-                $this->SetValue('Light', $isLightOn);
+                $this->SetValue('Light', (bool)$isLightOn);
             }
 
             // VentilationStep
             if (isset($state['ventilationStep']['value_raw'])) {
-                $this->SetValue('VentilationStep', $state['ventilationStep']['value_raw']);
+                $this->SetValue('VentilationStep', (int)$state['ventilationStep']['value_raw']);
             }
         }
     }

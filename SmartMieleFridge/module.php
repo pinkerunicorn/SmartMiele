@@ -70,19 +70,19 @@ class SmartMieleFridge extends IPSModule
             $state = $deviceData['state'];
 
             if (isset($state['status']['value_raw'])) {
-                $this->SetValue('Status', $state['status']['value_raw']);
-                $this->SetValue('StatusText', $state['status']['value_localized'] ?? '');
+                $this->SetValue('Status', (int)$state['status']['value_raw']);
+                $this->SetValue('StatusText', (string)($state['status']['value_localized'] ?? ''));
             }
 
             if (isset($state['temperature'][0]['value_raw'])) {
-                $this->SetValue('Temperature1', $state['temperature'][0]['value_raw']);
+                $this->SetValue('Temperature1', (float)$state['temperature'][0]['value_raw']);
             }
             if (isset($state['targetTemperature'][0]['value_raw'])) {
-                $this->SetValue('TargetTemperature1', $state['targetTemperature'][0]['value_raw']);
+                $this->SetValue('TargetTemperature1', (float)$state['targetTemperature'][0]['value_raw']);
             }
             
             if (isset($state['signalDoor'])) {
-                $this->SetValue('DoorOpen', $state['signalDoor']);
+                $this->SetValue('DoorOpen', (bool)$state['signalDoor']);
             }
         }
     }

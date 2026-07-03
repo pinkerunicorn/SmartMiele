@@ -90,10 +90,10 @@ class SmartMieleWasher extends IPSModule
         
         if ($fillingLevels) {
             if (isset($fillingLevels['twinDosContainer1FillingLevel']['value_raw'])) {
-                $this->SetValue('TwinDos1', $fillingLevels['twinDosContainer1FillingLevel']['value_raw']);
+                $this->SetValue('TwinDos1', (int)$fillingLevels['twinDosContainer1FillingLevel']['value_raw']);
             }
             if (isset($fillingLevels['twinDosContainer2FillingLevel']['value_raw'])) {
-                $this->SetValue('TwinDos2', $fillingLevels['twinDosContainer2FillingLevel']['value_raw']);
+                $this->SetValue('TwinDos2', (int)$fillingLevels['twinDosContainer2FillingLevel']['value_raw']);
             }
         }
     }
@@ -104,20 +104,20 @@ class SmartMieleWasher extends IPSModule
             $state = $deviceData['state'];
 
             if (isset($state['status']['value_raw'])) {
-                $this->SetValue('Status', $state['status']['value_raw']);
-                $this->SetValue('StatusText', $state['status']['value_localized'] ?? '');
+                $this->SetValue('Status', (int)$state['status']['value_raw']);
+                $this->SetValue('StatusText', (string)($state['status']['value_localized'] ?? ''));
             }
 
             if (isset($state['programPhase']['value_raw'])) {
-                $this->SetValue('ProgramPhase', $state['programPhase']['value_raw']);
-                $this->SetValue('ProgramPhaseText', $state['programPhase']['value_localized'] ?? '');
+                $this->SetValue('ProgramPhase', (int)$state['programPhase']['value_raw']);
+                $this->SetValue('ProgramPhaseText', (string)($state['programPhase']['value_localized'] ?? ''));
             }
 
             if (isset($state['remainingTime']) && is_array($state['remainingTime'])) {
                 $hours = $state['remainingTime'][0] ?? 0;
                 $minutes = $state['remainingTime'][1] ?? 0;
                 $totalMinutes = ($hours * 60) + $minutes;
-                $this->SetValue('RemainingTime', $totalMinutes);
+                $this->SetValue('RemainingTime', (int)$totalMinutes);
             }
         }
     }
