@@ -158,7 +158,13 @@ class SmartMieleWasher extends IPSModule
 
             if (isset($state['targetTemperature'][0]['value_raw'])) {
                 $t = $state['targetTemperature'][0]['value_raw'];
-                if ($t > -100) $this->SetValue('Temperature', (int)$t);
+                if ($t > -100) {
+                    if ($t >= 1000) {
+                        $this->SetValue('Temperature', (int)($t / 100));
+                    } else {
+                        $this->SetValue('Temperature', (int)$t);
+                    }
+                }
             }
             if (isset($state['spinningSpeed']['value_raw'])) {
                 $s = $state['spinningSpeed']['value_raw'];
