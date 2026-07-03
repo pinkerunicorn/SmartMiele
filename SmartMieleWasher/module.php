@@ -197,18 +197,30 @@ class SmartMieleWasher extends IPSModule
                 $this->SetValue('ElapsedTime', (int)$elapsedMinutes);
             }
             
-            if (isset($state['startTime']) && is_array($state['startTime'])) {
-                $hours = $state['startTime'][0] ?? 0;
-                $minutes = $state['startTime'][1] ?? 0;
-                if ($hours > 0 || $minutes > 0) {
-                    $ts = mktime((int)$hours, (int)$minutes, 0);
-                    if ($ts < time() - (12 * 3600)) {
-                        $ts += 86400; // Next day
+            $statusRaw = $state['status']['value_raw'] ?? 0;
+            
+            if ($statusRaw == 4) { // Waiting to start (Startzeitvorwahl)
+                if (isset($state['startTime']) && is_array($state['startTime'])) {
+                    $hours = $state['startTime'][0] ?? 0;
+                    $minutes = $state['startTime'][1] ?? 0;
+                    if ($hours > 0 || $minutes > 0) {
+                        $ts = mktime((int)$hours, (int)$minutes, 0);
+                        if ($ts < time() - (12 * 3600)) {
+                            $ts += 86400; // Next day
+                        }
+                        $this->SetValue('StartTime', $ts);
+                    } else {
+                        $this->SetValue('StartTime', 0);
                     }
-                    $this->SetValue('StartTime', $ts);
+                }
+            } else if ($statusRaw == 5 || $statusRaw == 7) { // In use or Finished
+                if ($elapsedMinutes > 0) {
+                    $this->SetValue('StartTime', time() - ($elapsedMinutes * 60));
                 } else {
                     $this->SetValue('StartTime', 0);
                 }
+            } else {
+                $this->SetValue('StartTime', 0);
             }
             
             if ($totalMinutes > 0 || $elapsedMinutes > 0) {
