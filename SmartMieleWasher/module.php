@@ -177,77 +177,61 @@ class SmartMieleWasher extends IPSModule
 
             $statusRaw = $state['status']['value_raw'] ?? 0;
             
-            // Times
-            $totalMinutes = 0;
-            if (isset($state['remainingTime']) && is_array($state['remainingTime'])) {
-                $hours = $state['remainingTime'][0] ?? 0;
-                $minutes = $state['remainingTime'][1] ?? 0;
-                $totalMinutes = ($hours * 60) + $minutes;
+            // --- Time & Progress Calculation ---
+            $remMinutes = @$this->GetValue('RemainingTime');
+            if (isset($state['remainingTime']) && is_array($state['remainingTime']) && count($state['remainingTime']) == 2) {
+                $remMinutes = ($state['remainingTime'][0] * 60) + $state['remainingTime'][1];
+            } else if (isset($state['remainingTime']) && is_array($state['remainingTime']) && count($state['remainingTime']) == 0) {
+                if ($statusRaw != 5 && $statusRaw != 7) $remMinutes = 0;
             }
+
+            $elapsedMinutes = @$this->GetValue('ElapsedTime');
+            if (isset($state['elapsedTime']) && is_array($state['elapsedTime']) && count($state['elapsedTime']) == 2) {
+                $elapsedMinutes = ($state['elapsedTime'][0] * 60) + $state['elapsedTime'][1];
+            } else if (isset($state['elapsedTime']) && is_array($state['elapsedTime']) && count($state['elapsedTime']) == 0) {
+                if ($statusRaw != 5 && $statusRaw != 7) $elapsedMinutes = 0;
+            }
+
+            if ($statusRaw == 7) { // Finished
+                $remMinutes = 0;
+                $progress = 100;
+                $startTime = @$this->GetValue('StartTime');
+                $finishTime = @$this->GetValue('FinishTime');
+            } else if ($statusRaw == 5) { // In Use
+                $newStart = time() - ($elapsedMinutes * 60);
+                $oldStart = @$this->GetValue('StartTime');
+                $startTime = (abs($newStart - $oldStart) < 180 && $oldStart > 0) ? $oldStart : $newStart;
                 
-            if ($statusRaw != 7) { // Only update if not finished
-                $this->SetValue('RemainingTime', (int)$totalMinutes);
-                if ($totalMinutes > 0) {
-                    $this->SetValue('FinishTime', time() + ($totalMinutes * 60));
+                $newFinish = time() + ($remMinutes * 60);
+                $oldFinish = @$this->GetValue('FinishTime');
+                $finishTime = (abs($newFinish - $oldFinish) < 180 && $oldFinish > 0) ? $oldFinish : $newFinish;
+                
+                $total = $elapsedMinutes + $remMinutes;
+                $progress = ($total > 0) ? (int)round(($elapsedMinutes / $total) * 100) : 0;
+            } else if ($statusRaw == 4) { // Waiting to start
+                $progress = 0;
+                $elapsedMinutes = 0;
+                if (isset($state['startTime']) && is_array($state['startTime']) && count($state['startTime']) == 2) {
+                    $ts = mktime((int)$state['startTime'][0], (int)$state['startTime'][1], 0);
+                    if ($ts < time() - (12 * 3600)) $ts += 86400; // Next day
+                    $startTime = $ts;
                 } else {
-                    $this->SetValue('FinishTime', 0);
+                    $startTime = 0;
                 }
+                $finishTime = ($startTime > 0) ? $startTime + ($remMinutes * 60) : 0;
+            } else { // Off, Idle
+                $progress = 0;
+                $elapsedMinutes = 0;
+                $remMinutes = 0;
+                $startTime = 0;
+                $finishTime = 0;
             }
-            
-            $elapsedMinutes = 0;
-            if (isset($state['elapsedTime']) && is_array($state['elapsedTime'])) {
-                $hours = $state['elapsedTime'][0] ?? 0;
-                $minutes = $state['elapsedTime'][1] ?? 0;
-                $elapsedMinutes = ($hours * 60) + $minutes;
-            }
-            
-            if ($statusRaw != 7) { // Only update if not finished
-                $this->SetValue('ElapsedTime', (int)$elapsedMinutes);
-            } else {
-                $elapsedMinutes = $this->GetValue('ElapsedTime'); // Keep last known value
-            }
-            
-            if ($statusRaw == 4) { // Waiting to start (Startzeitvorwahl)
-                if (isset($state['startTime']) && is_array($state['startTime'])) {
-                    $hours = $state['startTime'][0] ?? 0;
-                    $minutes = $state['startTime'][1] ?? 0;
-                    if ($hours > 0 || $minutes > 0) {
-                        $ts = mktime((int)$hours, (int)$minutes, 0);
-                        if ($ts < time() - (12 * 3600)) {
-                            $ts += 86400; // Next day
-                        }
-                        $this->SetValue('StartTime', $ts);
-                    } else {
-                        $this->SetValue('StartTime', 0);
-                    }
-                }
-            } else if ($statusRaw == 5) { // In use
-                if ($elapsedMinutes > 0) {
-                    $this->SetValue('StartTime', time() - ($elapsedMinutes * 60));
-                } else {
-                    $this->SetValue('StartTime', 0);
-                }
-            } else if ($statusRaw == 7) { // Finished
-                // Preserve StartTime
-            } else {
-                $this->SetValue('StartTime', 0);
-            }
-            
-            // Progress
-            if ($statusRaw == 7) {
-                $this->SetValue('ProgressPct', 100);
-                $this->SetValue('RemainingTime', 0);
-            } else {
-                if ($totalMinutes > 0 || $elapsedMinutes > 0) {
-                    $total = $totalMinutes + $elapsedMinutes;
-                    if ($total > 0) {
-                        $progress = (int)round(($elapsedMinutes / $total) * 100);
-                        $this->SetValue('ProgressPct', $progress);
-                    }
-                } else {
-                    $this->SetValue('ProgressPct', 0);
-                }
-            }
+
+            $this->SetValue('ElapsedTime', (int)$elapsedMinutes);
+            $this->SetValue('RemainingTime', (int)$remMinutes);
+            $this->SetValue('StartTime', (int)$startTime);
+            $this->SetValue('FinishTime', (int)$finishTime);
+            $this->SetValue('ProgressPct', (int)$progress);
         }
     }
 
