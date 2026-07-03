@@ -17,9 +17,9 @@ class SmartMieleFridge extends IPSModule
         $this->RegisterVariableInteger('Status', 'Status', '', 10);
         $this->RegisterVariableString('StatusText', 'Status (Text)', '', 15);
         
-        $this->RegisterVariableFloat('Temperature1', 'Ist-Temperatur (Zone 1)', '', 20);
-        $this->RegisterVariableFloat('TargetTemperature1', 'Ziel-Temperatur (Zone 1)', '', 25);
-        $this->EnableAction('TargetTemperature1');
+        $this->RegisterVariableFloat('Temp1', 'Ist-Temperatur (Zone 1)', '', 20);
+        $this->RegisterVariableFloat('TargetTemp1', 'Ziel-Temperatur (Zone 1)', '', 25);
+        $this->EnableAction('TargetTemp1');
         
         $this->RegisterVariableBoolean('DoorOpen', 'Tür geöffnet', '~Alert', 30);
     }
@@ -37,9 +37,9 @@ class SmartMieleFridge extends IPSModule
             'SUFFIX' => ' °C',
             'ICON' => 'Temperature'
         ];
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature1'), $tempPresentation);
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temp1'), $tempPresentation);
         
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemperature1'), [
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
             'SUFFIX' => ' °C',
             'ICON' => 'Temperature',
             'PRESENTATION' => 1, // Slider
@@ -77,23 +77,25 @@ class SmartMieleFridge extends IPSModule
             if (isset($state['temperature'][0]['value_raw'])) {
                 $valTemp = $state['temperature'][0]['value_raw'];
                 $this->SendDebug('Temp Update', 'Raw: ' . $valTemp . ' Type: ' . gettype($valTemp), 0);
-                $this->SetValue('Temperature1', (float)$valTemp);
+                $this->SetValue('Temp1', (float)$valTemp);
             }
             if (isset($state['targetTemperature'][0]['value_raw'])) {
                 $valTarget = $state['targetTemperature'][0]['value_raw'];
                 $this->SendDebug('TargetTemp Update', 'Raw: ' . $valTarget . ' Type: ' . gettype($valTarget), 0);
                 
-                $varID = @$this->GetIDForIdent('TargetTemperature1');
+                $varID = @$this->GetIDForIdent('TargetTemp1');
                 if ($varID) {
-                    $varObj = IPS_GetVariable($varID);
-                    $this->SendDebug('TargetTemp Update', 'VarID: ' . $varID . ' SymconType: ' . $varObj['VariableType'], 0);
+                    $varObj = @IPS_GetVariable($varID);
+                    if ($varObj) {
+                        $this->SendDebug('TargetTemp Update', 'VarID: ' . $varID . ' SymconType: ' . $varObj['VariableType'], 0);
+                    }
                 }
 
                 try {
-                    $this->SetValue('TargetTemperature1', (float)$valTarget);
+                    $this->SetValue('TargetTemp1', (float)$valTarget);
                 } catch (\Throwable $e) {
                     $this->SendDebug('TargetTemp Error', $e->getMessage(), 0);
-                    IPS_LogMessage('SmartMieleFridge', 'Error setting TargetTemperature1: ' . $e->getMessage());
+                    IPS_LogMessage('SmartMieleFridge', 'Error setting TargetTemp1: ' . $e->getMessage());
                 }
             }
             
@@ -142,7 +144,7 @@ class SmartMieleFridge extends IPSModule
         $actionData = [];
 
         switch ($Ident) {
-            case 'TargetTemperature1':
+            case 'TargetTemp1':
                 $actionData['targetTemperature'] = [
                     [
                         'zone' => 1,
