@@ -43,9 +43,9 @@ class SmartMieleFridge extends IPSModule
             'SUFFIX' => ' °C',
             'ICON' => 'Temperature',
             'PRESENTATION' => 1, // Slider
-            'MIN' => 1,
-            'MAX' => 9,
-            'STEP' => 1
+            'MIN' => 1.0,
+            'MAX' => 9.0,
+            'STEP' => 1.0
         ]);
     }
 
