@@ -26,7 +26,7 @@ class SmartMieleWasher extends IPSModule
         $this->RegisterVariableInteger('FinishTime', 'Ende um', '~UnixTimestampTime', 26);
         $this->RegisterVariableInteger('ElapsedTime', 'verstrichene Zeit', '', 27);
         $this->RegisterVariableInteger('RemainingTime', 'verbleibende Zeit', '', 28);
-        $this->RegisterVariableInteger('ProgressPct', 'Arbeitsfortschritt', '', 29);
+        $this->RegisterVariableInteger('ProgressPct', 'Arbeitsfortschritt', '~Intensity.100', 29);
         
         $this->RegisterVariableInteger('Temperature', 'Temperatur', '', 31);
         $this->RegisterVariableInteger('SpinSpeed', 'Drehzahl', '', 32);
