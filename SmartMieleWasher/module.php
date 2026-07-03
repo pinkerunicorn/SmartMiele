@@ -198,8 +198,34 @@ class SmartMieleWasher extends IPSModule
                 $startTime = @$this->GetValue('StartTime');
                 $finishTime = @$this->GetValue('FinishTime');
             } else if ($statusRaw == 5) { // In Use
-                $now = (int)(floor(time() / 60) * 60); // Strip seconds to prevent UI jitter
-                $startTime = $now - ($elapsedMinutes * 60);
+                $now = (int)(floor(time() / 60) * 60); // Strip seconds
+                $oldStart = @$this->GetValue('StartTime');
+                
+                $machineElapsed = 0;
+                if (isset($state['elapsedTime']) && is_array($state['elapsedTime']) && count($state['elapsedTime']) == 2) {
+                    $machineElapsed = ($state['elapsedTime'][0] * 60) + $state['elapsedTime'][1];
+                }
+                
+                if ($machineElapsed > 0) {
+                    $elapsedMinutes = $machineElapsed;
+                    $expectedStart = $now - ($elapsedMinutes * 60);
+                    // Jitter protection: keep anchored StartTime if it's close
+                    if ($oldStart > 0 && abs($expectedStart - $oldStart) < 300) {
+                        $startTime = $oldStart;
+                    } else {
+                        $startTime = $expectedStart;
+                    }
+                } else {
+                    // Miele Waschmaschinen senden oft KEINE verstrichene Zeit.
+                    // Wir frieren die Startzeit ein und berechnen die verstrichene Zeit selbst!
+                    if ($oldStart > 0 && $oldStart <= time()) {
+                        $startTime = $oldStart;
+                    } else {
+                        $startTime = $now;
+                    }
+                    $elapsedMinutes = (int)round((time() - $startTime) / 60);
+                }
+                
                 $finishTime = $now + ($remMinutes * 60);
                 
                 $total = $elapsedMinutes + $remMinutes;
