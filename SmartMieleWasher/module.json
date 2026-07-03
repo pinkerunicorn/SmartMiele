@@ -1,0 +1,11 @@
+{
+    "id": "{6FDD3FCD-8EF9-4DC7-BCFA-7D5626111B98}",
+    "name": "SmartMiele Washer",
+    "type": 3,
+    "vendor": "Miele",
+    "aliases": ["SmartMiele Washer"],
+    "parentRequirements": ["{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}"],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SM"
+}

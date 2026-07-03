@@ -1,0 +1,11 @@
+{
+    "id": "{92237E1B-B3C5-4527-B5C8-C47E6AA50859}",
+    "name": "SmartMiele Fridge",
+    "type": 3,
+    "vendor": "Miele",
+    "aliases": ["SmartMiele Fridge"],
+    "parentRequirements": ["{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}"],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SM"
+}

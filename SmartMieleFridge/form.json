@@ -1,0 +1,9 @@
+{
+    "elements": [
+        {
+            "type": "ValidationTextBox",
+            "name": "DeviceID",
+            "caption": "Miele Device ID (fabNumber)"
+        }
+    ]
+}

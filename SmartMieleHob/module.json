@@ -1,0 +1,11 @@
+{
+    "id": "{28C2EB1F-7C5B-41F7-8537-BA0977BACCA0}",
+    "name": "SmartMiele Hob",
+    "type": 3,
+    "vendor": "Miele",
+    "aliases": ["SmartMiele Hob"],
+    "parentRequirements": ["{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}"],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SM"
+}

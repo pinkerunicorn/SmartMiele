@@ -1,0 +1,11 @@
+{
+    "id": "{8333D436-95EF-4FD1-8620-705393C466AE}",
+    "name": "SmartMiele Dryer",
+    "type": 3,
+    "vendor": "Miele",
+    "aliases": ["SmartMiele Dryer"],
+    "parentRequirements": ["{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}"],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SM"
+}

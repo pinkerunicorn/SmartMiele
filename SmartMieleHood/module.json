@@ -1,0 +1,11 @@
+{
+    "id": "{C8151DDF-F85F-41AB-8EBA-5D43386D61A3}",
+    "name": "SmartMiele Hood",
+    "type": 3,
+    "vendor": "Miele",
+    "aliases": ["SmartMiele Hood"],
+    "parentRequirements": ["{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}"],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SM"
+}

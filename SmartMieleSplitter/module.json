@@ -1,0 +1,11 @@
+{
+    "id": "{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}",
+    "name": "SmartMiele Splitter",
+    "type": 2,
+    "vendor": "Miele",
+    "aliases": ["SmartMiele Splitter"],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "SM"
+}
