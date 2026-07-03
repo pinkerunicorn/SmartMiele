@@ -26,7 +26,7 @@ class SmartMieleWasher extends IPSModule
         $this->RegisterVariableInteger('FinishTime', 'Ende um', '~UnixTimestampTime', 26);
         $this->RegisterVariableInteger('ElapsedTime', 'verstrichene Zeit', '', 27);
         $this->RegisterVariableInteger('RemainingTime', 'verbleibende Zeit', '', 28);
-        $this->RegisterVariableInteger('Progress', 'Arbeitsfortschritt', '', 29);
+        $this->RegisterVariableInteger('ProgressPct', 'Arbeitsfortschritt', '', 29);
         
         $this->RegisterVariableInteger('Temperature', 'Temperatur', '', 31);
         $this->RegisterVariableInteger('SpinSpeed', 'Drehzahl', '', 32);
@@ -58,12 +58,9 @@ class SmartMieleWasher extends IPSModule
             'ICON' => 'Clock'
         ]);
         
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Progress'), [
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('ProgressPct'), [
             'SUFFIX' => ' %',
-            'ICON' => 'Graph',
-            'PRESENTATION' => 1,
-            'MIN' => 0,
-            'MAX' => 100
+            'ICON' => 'Graph'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature'), [
@@ -88,18 +85,12 @@ class SmartMieleWasher extends IPSModule
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos1'), [
             'SUFFIX' => ' %',
-            'ICON' => 'Drop',
-            'PRESENTATION' => 1,
-            'MIN' => 0,
-            'MAX' => 100
+            'ICON' => 'Drop'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos2'), [
             'SUFFIX' => ' %',
-            'ICON' => 'Drop',
-            'PRESENTATION' => 1,
-            'MIN' => 0,
-            'MAX' => 100
+            'ICON' => 'Drop'
         ]);
     }
 
@@ -224,10 +215,10 @@ class SmartMieleWasher extends IPSModule
                 $total = $totalMinutes + $elapsedMinutes;
                 if ($total > 0) {
                     $progress = (int)round(($elapsedMinutes / $total) * 100);
-                    $this->SetValue('Progress', $progress);
+                    $this->SetValue('ProgressPct', $progress);
                 }
             } else {
-                $this->SetValue('Progress', 0);
+                $this->SetValue('ProgressPct', 0);
             }
         }
     }
