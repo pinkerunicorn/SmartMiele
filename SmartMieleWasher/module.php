@@ -16,13 +16,27 @@ class SmartMieleWasher extends IPSModule
         
         // Variables
         $this->RegisterVariableString('StatusText', 'Status', '', 10);
+        $this->RegisterVariableBoolean('SignalInfo', 'Hinweis vorhanden', '', 11);
+        $this->RegisterVariableBoolean('SignalFailure', 'Fehler erkannt', '~Alert', 12);
         
-        $this->RegisterVariableString('ProgramPhaseText', 'Programm-Phase', '', 20);
+        $this->RegisterVariableString('ProgramName', 'Programmbezeichnung', '', 21);
+        $this->RegisterVariableString('ProgramPhaseText', 'Programm-Phase', '', 22);
         
-        $this->RegisterVariableInteger('RemainingTime', 'Verbleibende Zeit', '', 30);
+        $this->RegisterVariableInteger('StartTime', 'Start um', '~UnixTimestampTime', 25);
+        $this->RegisterVariableInteger('FinishTime', 'Ende um', '~UnixTimestampTime', 26);
+        $this->RegisterVariableInteger('ElapsedTime', 'verstrichene Zeit', '', 27);
+        $this->RegisterVariableInteger('RemainingTime', 'verbleibende Zeit', '', 28);
+        $this->RegisterVariableInteger('Progress', 'Arbeitsfortschritt', '', 29);
+        
+        $this->RegisterVariableInteger('Temperature', 'Temperatur', '', 31);
+        $this->RegisterVariableInteger('SpinSpeed', 'Drehzahl', '', 32);
+        $this->RegisterVariableBoolean('Door', 'Tür', '~Window', 33);
         
         $this->RegisterVariableInteger('TwinDos1', 'TwinDos 1 Füllstand', '', 40);
         $this->RegisterVariableInteger('TwinDos2', 'TwinDos 2 Füllstand', '', 45);
+        
+        $this->RegisterVariableFloat('CurrentWaterConsumption', 'aktueller Wasserverbrauch', '', 50);
+        $this->RegisterVariableFloat('CurrentEnergyConsumption', 'aktueller Energieverbrauch', '', 55);
     }
 
     public function ApplyChanges()
@@ -34,9 +48,42 @@ class SmartMieleWasher extends IPSModule
             'ICON' => 'Information'
         ]);
         
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('ElapsedTime'), [
+            'SUFFIX' => ' min',
+            'ICON' => 'Clock'
+        ]);
+        
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
             'SUFFIX' => ' min',
             'ICON' => 'Clock'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Progress'), [
+            'SUFFIX' => ' %',
+            'ICON' => 'Graph',
+            'PRESENTATION' => 1,
+            'MIN' => 0,
+            'MAX' => 100
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature'), [
+            'SUFFIX' => ' °C',
+            'ICON' => 'Temperature'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('SpinSpeed'), [
+            'SUFFIX' => ' U/min',
+            'ICON' => 'Motion'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentWaterConsumption'), [
+            'SUFFIX' => ' l',
+            'ICON' => 'Drop'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentEnergyConsumption'), [
+            'SUFFIX' => ' kWh',
+            'ICON' => 'Electricity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos1'), [
@@ -104,16 +151,83 @@ class SmartMieleWasher extends IPSModule
             if (isset($state['status']['value_localized'])) {
                 $this->SetValue('StatusText', (string)$state['status']['value_localized']);
             }
-
+            if (isset($state['signalInfo'])) {
+                $this->SetValue('SignalInfo', (bool)$state['signalInfo']);
+            }
+            if (isset($state['signalFailure'])) {
+                $this->SetValue('SignalFailure', (bool)$state['signalFailure']);
+            }
+            
+            if (isset($state['ProgramID']['value_localized'])) {
+                $this->SetValue('ProgramName', (string)$state['ProgramID']['value_localized']);
+            }
             if (isset($state['programPhase']['value_localized'])) {
                 $this->SetValue('ProgramPhaseText', (string)$state['programPhase']['value_localized']);
             }
 
+            if (isset($state['targetTemperature'][0]['value_raw'])) {
+                $t = $state['targetTemperature'][0]['value_raw'];
+                if ($t > -100) $this->SetValue('Temperature', (int)$t);
+            }
+            if (isset($state['spinningSpeed']['value_raw'])) {
+                $s = $state['spinningSpeed']['value_raw'];
+                if ($s > -1) $this->SetValue('SpinSpeed', (int)$s);
+            }
+            if (isset($state['signalDoor'])) {
+                $this->SetValue('Door', (bool)$state['signalDoor']);
+            }
+            
+            if (isset($state['ecoFeedback']['currentWaterConsumption']['value'])) {
+                $this->SetValue('CurrentWaterConsumption', (float)$state['ecoFeedback']['currentWaterConsumption']['value']);
+            }
+            if (isset($state['ecoFeedback']['currentEnergyConsumption']['value'])) {
+                $this->SetValue('CurrentEnergyConsumption', (float)$state['ecoFeedback']['currentEnergyConsumption']['value']);
+            }
+
+            $totalMinutes = 0;
             if (isset($state['remainingTime']) && is_array($state['remainingTime'])) {
                 $hours = $state['remainingTime'][0] ?? 0;
                 $minutes = $state['remainingTime'][1] ?? 0;
                 $totalMinutes = ($hours * 60) + $minutes;
                 $this->SetValue('RemainingTime', (int)$totalMinutes);
+                
+                if ($totalMinutes > 0) {
+                    $this->SetValue('FinishTime', time() + ($totalMinutes * 60));
+                } else {
+                    $this->SetValue('FinishTime', 0);
+                }
+            }
+            
+            $elapsedMinutes = 0;
+            if (isset($state['elapsedTime']) && is_array($state['elapsedTime'])) {
+                $hours = $state['elapsedTime'][0] ?? 0;
+                $minutes = $state['elapsedTime'][1] ?? 0;
+                $elapsedMinutes = ($hours * 60) + $minutes;
+                $this->SetValue('ElapsedTime', (int)$elapsedMinutes);
+            }
+            
+            if (isset($state['startTime']) && is_array($state['startTime'])) {
+                $hours = $state['startTime'][0] ?? 0;
+                $minutes = $state['startTime'][1] ?? 0;
+                if ($hours > 0 || $minutes > 0) {
+                    $ts = mktime((int)$hours, (int)$minutes, 0);
+                    if ($ts < time() - (12 * 3600)) {
+                        $ts += 86400; // Next day
+                    }
+                    $this->SetValue('StartTime', $ts);
+                } else {
+                    $this->SetValue('StartTime', 0);
+                }
+            }
+            
+            if ($totalMinutes > 0 || $elapsedMinutes > 0) {
+                $total = $totalMinutes + $elapsedMinutes;
+                if ($total > 0) {
+                    $progress = (int)round(($elapsedMinutes / $total) * 100);
+                    $this->SetValue('Progress', $progress);
+                }
+            } else {
+                $this->SetValue('Progress', 0);
             }
         }
     }
