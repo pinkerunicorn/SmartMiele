@@ -28,14 +28,14 @@ class SmartMieleDryer extends IPSModule
         parent::ApplyChanges();
 
         // Symcon 8 Custom Presentations
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), json_encode([
-            'Icon' => 'Information'
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), [
+            'ICON' => 'Information'
+        ]);
         
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), json_encode([
-            'Suffix' => ' min',
-            'Icon' => 'Clock'
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
+            'SUFFIX' => ' min',
+            'ICON' => 'Clock'
+        ]);
     }
 
     public function ReceiveData($JSONString)

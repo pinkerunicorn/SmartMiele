@@ -29,24 +29,24 @@ class SmartMieleFridge extends IPSModule
         parent::ApplyChanges();
 
         // Symcon 8 Custom Presentations
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), json_encode([
-            'Icon' => 'Information'
-        ]));
-        
-        $tempPresentation = json_encode([
-            'Suffix' => ' °C',
-            'Icon' => 'Temperature'
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), [
+            'ICON' => 'Information'
         ]);
+        
+        $tempPresentation = [
+            'SUFFIX' => ' °C',
+            'ICON' => 'Temperature'
+        ];
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature1'), $tempPresentation);
         
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemperature1'), json_encode([
-            'Suffix' => ' °C',
-            'Icon' => 'Temperature',
-            'Type' => 'Slider',
-            'MinValue' => 1,
-            'MaxValue' => 9,
-            'StepSize' => 1
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemperature1'), [
+            'SUFFIX' => ' °C',
+            'ICON' => 'Temperature',
+            'PRESENTATION' => 1, // Slider
+            'MIN' => 1,
+            'MAX' => 9,
+            'STEP' => 1
+        ]);
     }
 
     public function ReceiveData($JSONString)

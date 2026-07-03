@@ -23,18 +23,18 @@ class SmartMieleHob extends IPSModule
     {
         parent::ApplyChanges();
 
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), json_encode([
-            'Icon' => 'Information'
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), [
+            'ICON' => 'Information'
+        ]);
 
         $plates = $this->ReadPropertyInteger('PlateCount');
         for ($i = 1; $i <= $plates; $i++) {
             $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, '', 20 + $i);
             
-            IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), json_encode([
-                'Icon' => 'Flame',
-                'Suffix' => ' Stufe'
-            ]));
+            IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), [
+                'ICON' => 'Flame',
+                'SUFFIX' => ' Stufe'
+            ]);
         }
     }
 

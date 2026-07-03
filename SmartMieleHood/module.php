@@ -27,19 +27,18 @@ class SmartMieleHood extends IPSModule
         parent::ApplyChanges();
 
         // Symcon 8 Custom Presentations
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), json_encode([
-            'Suffix' => '',
-            'Icon' => 'Information'
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), [
+            'ICON' => 'Information'
+        ]);
 
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), json_encode([
-            'Type' => 'Slider',
-            'MinValue' => 0,
-            'MaxValue' => 4,
-            'StepSize' => 1,
-            'Suffix' => ' Stufe',
-            'Icon' => 'Ventilator'
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), [
+            'PRESENTATION' => 1, // Slider
+            'MIN' => 0,
+            'MAX' => 4,
+            'STEP' => 1,
+            'SUFFIX' => ' Stufe',
+            'ICON' => 'Ventilator'
+        ]);
     }
 
     public function ReceiveData($JSONString)

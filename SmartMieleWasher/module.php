@@ -32,30 +32,30 @@ class SmartMieleWasher extends IPSModule
         parent::ApplyChanges();
 
         // Symcon 8 Custom Presentations
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), json_encode([
-            'Icon' => 'Information'
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Status'), [
+            'ICON' => 'Information'
+        ]);
         
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), json_encode([
-            'Suffix' => ' min',
-            'Icon' => 'Clock'
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
+            'SUFFIX' => ' min',
+            'ICON' => 'Clock'
+        ]);
         
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos1'), json_encode([
-            'Suffix' => ' %',
-            'Icon' => 'Drop',
-            'Type' => 'Slider',
-            'MinValue' => 0,
-            'MaxValue' => 100
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos1'), [
+            'SUFFIX' => ' %',
+            'ICON' => 'Drop',
+            'PRESENTATION' => 1,
+            'MIN' => 0,
+            'MAX' => 100
+        ]);
         
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos2'), json_encode([
-            'Suffix' => ' %',
-            'Icon' => 'Drop',
-            'Type' => 'Slider',
-            'MinValue' => 0,
-            'MaxValue' => 100
-        ]));
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos2'), [
+            'SUFFIX' => ' %',
+            'ICON' => 'Drop',
+            'PRESENTATION' => 1,
+            'MIN' => 0,
+            'MAX' => 100
+        ]);
     }
 
     public function ReceiveData($JSONString)
