@@ -4,8 +4,8 @@
     "type": 3,
     "vendor": "Miele",
     "aliases": ["SmartMiele Hob"],
-    "parentRequirements": ["{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"],
+    "parentRequirements": ["{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}"],
     "childRequirements": [],
-    "implemented": ["{11A893D6-2EE7-48DF-AA82-2CFF2BA74B64}"],
+    "implemented": [],
     "prefix": "SM"
 }
