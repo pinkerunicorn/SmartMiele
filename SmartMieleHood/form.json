@@ -5,5 +5,12 @@
             "name": "DeviceID",
             "caption": "Miele Device ID (fabNumber)"
         }
+    ],
+    "actions": [
+        {
+            "type": "Button",
+            "caption": "Gerät aktualisieren",
+            "onClick": "SM_UpdateDevice($id);"
+        }
     ]
 }

@@ -80,6 +80,35 @@ class SmartMieleHood extends IPSModule
         }
     }
 
+    public function UpdateDevice()
+    {
+        $deviceId = $this->ReadPropertyString('DeviceID');
+        if (empty($deviceId)) {
+            echo "Fehler: Bitte zuerst eine Device ID eintragen.\n";
+            return;
+        }
+
+        $payload = [
+            'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+            'Command' => 'ApiGet',
+            'Endpoint' => '/v1/devices/' . urlencode($deviceId) . '/state'
+        ];
+        
+        $result = $this->SendDataToParent(json_encode($payload));
+        $state = json_decode($result, true);
+
+        if ($state && is_array($state) && !isset($state['message'])) {
+            $this->ProcessDeviceData(['state' => $state]);
+            echo "Gerät erfolgreich aktualisiert!\n";
+        } else {
+            if (isset($state['message'])) {
+                echo "Fehler beim Update: " . $state['message'] . "\n";
+            } else {
+                echo "Fehler beim Update: Konnte keine Daten abrufen. Bitte API-Verbindung und Device ID prüfen.\n";
+            }
+        }
+    }
+
     public function RequestAction($Ident, $Value)
     {
         $deviceId = $this->ReadPropertyString('DeviceID');
