@@ -175,17 +175,22 @@ class SmartMieleWasher extends IPSModule
                 $this->SetValue('CurrentEnergyConsumption', (float)$state['ecoFeedback']['currentEnergyConsumption']['value']);
             }
 
+            $statusRaw = $state['status']['value_raw'] ?? 0;
+            
+            // Times
             $totalMinutes = 0;
             if (isset($state['remainingTime']) && is_array($state['remainingTime'])) {
                 $hours = $state['remainingTime'][0] ?? 0;
                 $minutes = $state['remainingTime'][1] ?? 0;
                 $totalMinutes = ($hours * 60) + $minutes;
-                $this->SetValue('RemainingTime', (int)$totalMinutes);
                 
-                if ($totalMinutes > 0) {
-                    $this->SetValue('FinishTime', time() + ($totalMinutes * 60));
-                } else {
-                    $this->SetValue('FinishTime', 0);
+                if ($statusRaw != 7) { // Only update if not finished
+                    $this->SetValue('RemainingTime', (int)$totalMinutes);
+                    if ($totalMinutes > 0) {
+                        $this->SetValue('FinishTime', time() + ($totalMinutes * 60));
+                    } else {
+                        $this->SetValue('FinishTime', 0);
+                    }
                 }
             }
             
@@ -194,10 +199,13 @@ class SmartMieleWasher extends IPSModule
                 $hours = $state['elapsedTime'][0] ?? 0;
                 $minutes = $state['elapsedTime'][1] ?? 0;
                 $elapsedMinutes = ($hours * 60) + $minutes;
-                $this->SetValue('ElapsedTime', (int)$elapsedMinutes);
+                
+                if ($statusRaw != 7) { // Only update if not finished
+                    $this->SetValue('ElapsedTime', (int)$elapsedMinutes);
+                } else {
+                    $elapsedMinutes = $this->GetValue('ElapsedTime'); // Keep last known value
+                }
             }
-            
-            $statusRaw = $state['status']['value_raw'] ?? 0;
             
             if ($statusRaw == 4) { // Waiting to start (Startzeitvorwahl)
                 if (isset($state['startTime']) && is_array($state['startTime'])) {
@@ -213,24 +221,32 @@ class SmartMieleWasher extends IPSModule
                         $this->SetValue('StartTime', 0);
                     }
                 }
-            } else if ($statusRaw == 5 || $statusRaw == 7) { // In use or Finished
+            } else if ($statusRaw == 5) { // In use
                 if ($elapsedMinutes > 0) {
                     $this->SetValue('StartTime', time() - ($elapsedMinutes * 60));
                 } else {
                     $this->SetValue('StartTime', 0);
                 }
+            } else if ($statusRaw == 7) { // Finished
+                // Preserve StartTime
             } else {
                 $this->SetValue('StartTime', 0);
             }
             
-            if ($totalMinutes > 0 || $elapsedMinutes > 0) {
-                $total = $totalMinutes + $elapsedMinutes;
-                if ($total > 0) {
-                    $progress = (int)round(($elapsedMinutes / $total) * 100);
-                    $this->SetValue('ProgressPct', $progress);
-                }
+            // Progress
+            if ($statusRaw == 7) {
+                $this->SetValue('ProgressPct', 100);
+                $this->SetValue('RemainingTime', 0);
             } else {
-                $this->SetValue('ProgressPct', 0);
+                if ($totalMinutes > 0 || $elapsedMinutes > 0) {
+                    $total = $totalMinutes + $elapsedMinutes;
+                    if ($total > 0) {
+                        $progress = (int)round(($elapsedMinutes / $total) * 100);
+                        $this->SetValue('ProgressPct', $progress);
+                    }
+                } else {
+                    $this->SetValue('ProgressPct', 0);
+                }
             }
         }
     }
