@@ -143,7 +143,7 @@ class SmartMieleSplitter extends IPSModule
             if (is_array($data)) {
                 // Send to children
                 $payload = [
-                    'DataID' => '{11A893D6-2EE7-48DF-AA82-2CFF2BA74B64}',
+                    'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
                     'Devices' => $data
                 ];
                 $this->SendDataToChildren(json_encode($payload));

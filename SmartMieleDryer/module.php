@@ -41,7 +41,7 @@ class SmartMieleDryer extends IPSModule
     public function ReceiveData($JSONString)
     {
         $data = json_decode($JSONString, true);
-        if ($data['DataID'] == '{11A893D6-2EE7-48DF-AA82-2CFF2BA74B64}') {
+        if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {
             $deviceId = $this->ReadPropertyString('DeviceID');
             if (empty($deviceId)) {
                 return;

@@ -6,6 +6,6 @@
     "aliases": ["SmartMiele Dryer"],
     "parentRequirements": ["{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"],
     "childRequirements": [],
-    "implemented": ["{11A893D6-2EE7-48DF-AA82-2CFF2BA74B64}"],
+    "implemented": ["{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"],
     "prefix": "SM"
 }
