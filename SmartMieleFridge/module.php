@@ -41,11 +41,7 @@ class SmartMieleFridge extends IPSModule
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
             'SUFFIX' => ' °C',
-            'ICON' => 'Temperature',
-            'PRESENTATION' => 1, // Slider
-            'MIN' => 1.0,
-            'MAX' => 9.0,
-            'STEP' => 1.0
+            'ICON' => 'Temperature'
         ]);
     }
 
