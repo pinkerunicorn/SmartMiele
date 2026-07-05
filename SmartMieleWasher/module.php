@@ -122,7 +122,6 @@ class SmartMieleWasher extends IPSModule
         ];
         
         $result = $this->SendDataToParent(json_encode($payload));
-        IPS_LogMessage('TwinDos Debug', "Result: " . $result);
         $fillingLevels = json_decode($result, true);
         
         if ($fillingLevels) {
