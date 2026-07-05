@@ -32,7 +32,7 @@ class SmartMieleHood extends IPSModule
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), [
-            'PRESENTATION' => 1, // Slider
+            'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER, // Slider
             'MIN' => 0.0,
             'MAX' => 4.0,
             'STEP' => 1.0,
