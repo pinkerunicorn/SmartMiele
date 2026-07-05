@@ -15,10 +15,21 @@ class SmartMieleDryer extends IPSModule
         
         // Variables
         $this->RegisterVariableString('StatusText', 'Status', '', 10);
+        $this->RegisterVariableBoolean('SignalInfo', 'Hinweis vorhanden', '', 11);
+        $this->RegisterVariableBoolean('SignalFailure', 'Fehler erkannt', '~Alert', 12);
         
-        $this->RegisterVariableString('ProgramPhaseText', 'Programm-Phase', '', 20);
+        $this->RegisterVariableString('ProgramName', 'Programmbezeichnung', '', 21);
+        $this->RegisterVariableString('ProgramPhaseText', 'Programm-Phase', '', 22);
         
-        $this->RegisterVariableInteger('RemainingTime', 'Verbleibende Zeit', '', 30);
+        $this->RegisterVariableInteger('StartTime', 'Start um', '~UnixTimestampTime', 25);
+        $this->RegisterVariableInteger('FinishTime', 'Ende um', '~UnixTimestampTime', 26);
+        $this->RegisterVariableInteger('ElapsedTime', 'verstrichene Zeit', '', 27);
+        $this->RegisterVariableInteger('RemainingTime', 'verbleibende Zeit', '', 28);
+        $this->RegisterVariableInteger('ProgressPct', 'Arbeitsfortschritt', '~Intensity.100', 29);
+        
+        $this->RegisterVariableBoolean('Door', 'Tür', '~Window', 33);
+        
+        $this->RegisterVariableFloat('CurrentEnergyConsumption', 'aktueller Energieverbrauch', '', 55);
     }
 
     public function ApplyChanges()
@@ -30,9 +41,24 @@ class SmartMieleDryer extends IPSModule
             'ICON' => 'Information'
         ]);
         
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('ElapsedTime'), [
+            'SUFFIX' => ' min',
+            'ICON' => 'Clock'
+        ]);
+        
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
             'SUFFIX' => ' min',
             'ICON' => 'Clock'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('ProgressPct'), [
+            'SUFFIX' => ' %',
+            'ICON' => 'Graph'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentEnergyConsumption'), [
+            'SUFFIX' => ' kWh',
+            'ICON' => 'Electricity'
         ]);
     }
 
@@ -59,17 +85,106 @@ class SmartMieleDryer extends IPSModule
             if (isset($state['status']['value_localized'])) {
                 $this->SetValue('StatusText', (string)$state['status']['value_localized']);
             }
-
+            if (isset($state['signalInfo'])) {
+                $this->SetValue('SignalInfo', (bool)$state['signalInfo']);
+            }
+            if (isset($state['signalFailure'])) {
+                $this->SetValue('SignalFailure', (bool)$state['signalFailure']);
+            }
+            
+            if (isset($state['ProgramID']['value_localized'])) {
+                $this->SetValue('ProgramName', (string)$state['ProgramID']['value_localized']);
+            }
             if (isset($state['programPhase']['value_localized'])) {
                 $this->SetValue('ProgramPhaseText', (string)$state['programPhase']['value_localized']);
             }
 
-            if (isset($state['remainingTime']) && is_array($state['remainingTime'])) {
-                $hours = $state['remainingTime'][0] ?? 0;
-                $minutes = $state['remainingTime'][1] ?? 0;
-                $totalMinutes = ($hours * 60) + $minutes;
-                $this->SetValue('RemainingTime', (int)$totalMinutes);
+            if (isset($state['signalDoor'])) {
+                $this->SetValue('Door', (bool)$state['signalDoor']);
             }
+            
+            if (isset($state['ecoFeedback']['currentEnergyConsumption']['value'])) {
+                $this->SetValue('CurrentEnergyConsumption', (float)$state['ecoFeedback']['currentEnergyConsumption']['value']);
+            }
+
+            $statusRaw = $state['status']['value_raw'] ?? 0;
+            
+            // --- Time & Progress Calculation ---
+            $remMinutes = @$this->GetValue('RemainingTime');
+            if (isset($state['remainingTime']) && is_array($state['remainingTime']) && count($state['remainingTime']) == 2) {
+                $remMinutes = ($state['remainingTime'][0] * 60) + $state['remainingTime'][1];
+            } else if (isset($state['remainingTime']) && is_array($state['remainingTime']) && count($state['remainingTime']) == 0) {
+                if ($statusRaw != 5 && $statusRaw != 7) $remMinutes = 0;
+            }
+
+            $elapsedMinutes = @$this->GetValue('ElapsedTime');
+            if (isset($state['elapsedTime']) && is_array($state['elapsedTime']) && count($state['elapsedTime']) == 2) {
+                $elapsedMinutes = ($state['elapsedTime'][0] * 60) + $state['elapsedTime'][1];
+            } else if (isset($state['elapsedTime']) && is_array($state['elapsedTime']) && count($state['elapsedTime']) == 0) {
+                if ($statusRaw != 5 && $statusRaw != 7) $elapsedMinutes = 0;
+            }
+
+            if ($statusRaw == 7) { // Finished
+                $remMinutes = 0;
+                $progress = 100;
+                $startTime = @$this->GetValue('StartTime');
+                $finishTime = @$this->GetValue('FinishTime');
+            } else if ($statusRaw == 5) { // In Use
+                $now = (int)(floor(time() / 60) * 60); // Strip seconds
+                $oldStart = @$this->GetValue('StartTime');
+                
+                $machineElapsed = 0;
+                if (isset($state['elapsedTime']) && is_array($state['elapsedTime']) && count($state['elapsedTime']) == 2) {
+                    $machineElapsed = ($state['elapsedTime'][0] * 60) + $state['elapsedTime'][1];
+                }
+                
+                if ($machineElapsed > 0) {
+                    $elapsedMinutes = $machineElapsed;
+                    $expectedStart = $now - ($elapsedMinutes * 60);
+                    // Jitter protection: keep anchored StartTime if it's close
+                    if ($oldStart > 0 && abs($expectedStart - $oldStart) < 300) {
+                        $startTime = $oldStart;
+                    } else {
+                        $startTime = $expectedStart;
+                    }
+                } else {
+                    // Falls der Trockner keine ElapsedTime schickt, berechnen wir sie selbst
+                    if ($oldStart > 0 && $oldStart <= time()) {
+                        $startTime = $oldStart;
+                    } else {
+                        $startTime = $now;
+                    }
+                    $elapsedMinutes = (int)round((time() - $startTime) / 60);
+                }
+                
+                $finishTime = $now + ($remMinutes * 60);
+                
+                $total = $elapsedMinutes + $remMinutes;
+                $progress = ($total > 0) ? (int)round(($elapsedMinutes / $total) * 100) : 0;
+            } else if ($statusRaw == 4) { // Waiting to start
+                $progress = 0;
+                $elapsedMinutes = 0;
+                if (isset($state['startTime']) && is_array($state['startTime']) && count($state['startTime']) == 2) {
+                    $ts = mktime((int)$state['startTime'][0], (int)$state['startTime'][1], 0);
+                    if ($ts < time() - (12 * 3600)) $ts += 86400; // Next day
+                    $startTime = $ts;
+                } else {
+                    $startTime = 0;
+                }
+                $finishTime = ($startTime > 0) ? $startTime + ($remMinutes * 60) : 0;
+            } else { // Off, Idle
+                $progress = 0;
+                $elapsedMinutes = 0;
+                $remMinutes = 0;
+                $startTime = 0;
+                $finishTime = 0;
+            }
+
+            $this->SetValue('ElapsedTime', (int)$elapsedMinutes);
+            $this->SetValue('RemainingTime', (int)$remMinutes);
+            $this->SetValue('StartTime', (int)$startTime);
+            $this->SetValue('FinishTime', (int)$finishTime);
+            $this->SetValue('ProgressPct', (int)$progress);
         }
     }
 
