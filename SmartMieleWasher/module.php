@@ -125,11 +125,13 @@ class SmartMieleWasher extends IPSModule
         $fillingLevels = json_decode($result, true);
         
         if ($fillingLevels) {
-            if (isset($fillingLevels['twinDosContainer1FillingLevel']['value_raw'])) {
-                $this->SetValue('TwinDos1', (int)$fillingLevels['twinDosContainer1FillingLevel']['value_raw']);
+            if (isset($fillingLevels['twinDosContainer1FillingLevel'])) {
+                $val = is_array($fillingLevels['twinDosContainer1FillingLevel']) ? $fillingLevels['twinDosContainer1FillingLevel']['value_raw'] : $fillingLevels['twinDosContainer1FillingLevel'];
+                $this->SetValue('TwinDos1', (int)$val);
             }
-            if (isset($fillingLevels['twinDosContainer2FillingLevel']['value_raw'])) {
-                $this->SetValue('TwinDos2', (int)$fillingLevels['twinDosContainer2FillingLevel']['value_raw']);
+            if (isset($fillingLevels['twinDosContainer2FillingLevel'])) {
+                $val = is_array($fillingLevels['twinDosContainer2FillingLevel']) ? $fillingLevels['twinDosContainer2FillingLevel']['value_raw'] : $fillingLevels['twinDosContainer2FillingLevel'];
+                $this->SetValue('TwinDos2', (int)$val);
             }
         }
     }
