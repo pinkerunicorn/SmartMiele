@@ -21,6 +21,9 @@ class SmartMieleFridge extends IPSModule
         $this->EnableAction('TargetTemp1');
         
         $this->RegisterVariableBoolean('DoorOpen', 'Tür geöffnet', '~Alert', 30);
+
+        $this->RegisterVariableBoolean('SuperCooling', 'Schnellkühlen', '~Switch', 35);
+        $this->EnableAction('SuperCooling');
     }
 
     public function ApplyChanges()
@@ -66,6 +69,11 @@ class SmartMieleFridge extends IPSModule
 
             if (isset($state['status']['value_localized'])) {
                 $this->SetValue('StatusText', (string)$state['status']['value_localized']);
+            }
+            if (isset($state['status']['value_raw'])) {
+                $statusRaw = $state['status']['value_raw'];
+                $isSuperCooling = ($statusRaw == 14 || $statusRaw == 146);
+                $this->SetValue('SuperCooling', $isSuperCooling);
             }
 
             if (isset($state['temperature'][0]['value_raw'])) {
@@ -145,6 +153,9 @@ class SmartMieleFridge extends IPSModule
                         'value' => $Value
                     ]
                 ];
+                break;
+            case 'SuperCooling':
+                $actionData['processAction'] = $Value ? 6 : 7;
                 break;
 
             default:
