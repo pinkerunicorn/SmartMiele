@@ -14,22 +14,22 @@ class SmartMieleDryer extends IPSModule
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'Status', '', 10);
-        $this->RegisterVariableBoolean('SignalInfo', 'Hinweis vorhanden', '', 11);
-        $this->RegisterVariableBoolean('SignalFailure', 'Fehler erkannt', '~Alert', 12);
+        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
+        $this->RegisterVariableBoolean('SignalInfo', '🔔 Hinweis vorhanden', '', 11);
+        $this->RegisterVariableBoolean('SignalFailure', '⚠️ Fehler erkannt', '~Alert', 12);
         
-        $this->RegisterVariableString('ProgramName', 'Programmbezeichnung', '', 21);
-        $this->RegisterVariableString('ProgramPhaseText', 'Programm-Phase', '', 22);
+        $this->RegisterVariableString('ProgramName', '📝 Programmbezeichnung', '', 21);
+        $this->RegisterVariableString('ProgramPhaseText', '🔄 Programm-Phase', '', 22);
         
-        $this->RegisterVariableInteger('StartTime', 'Start um', '~UnixTimestampTime', 25);
-        $this->RegisterVariableInteger('FinishTime', 'Ende um', '~UnixTimestampTime', 26);
-        $this->RegisterVariableInteger('ElapsedTime', 'verstrichene Zeit', '', 27);
-        $this->RegisterVariableInteger('RemainingTime', 'verbleibende Zeit', '', 28);
-        $this->RegisterVariableInteger('ProgressPct', 'Arbeitsfortschritt', '~Intensity.100', 29);
+        $this->RegisterVariableInteger('StartTime', '▶️ Start um', '~UnixTimestampTime', 25);
+        $this->RegisterVariableInteger('FinishTime', '⏹️ Ende um', '~UnixTimestampTime', 26);
+        $this->RegisterVariableInteger('ElapsedTime', '⏱️ verstrichene Zeit', '', 27);
+        $this->RegisterVariableInteger('RemainingTime', '⏳ verbleibende Zeit', '', 28);
+        $this->RegisterVariableInteger('ProgressPct', '📈 Arbeitsfortschritt', '~Intensity.100', 29);
         
-        $this->RegisterVariableBoolean('Door', 'Tür', '~Window', 33);
+        $this->RegisterVariableBoolean('Door', '🚪 Tür', '~Window', 33);
         
-        $this->RegisterVariableFloat('CurrentEnergyConsumption', 'aktueller Energieverbrauch', '', 55);
+        $this->RegisterVariableFloat('CurrentEnergyConsumption', '⚡ aktueller Energieverbrauch', '', 55);
     }
 
     public function ApplyChanges()

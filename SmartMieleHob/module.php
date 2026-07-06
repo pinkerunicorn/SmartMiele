@@ -15,7 +15,26 @@ class SmartMieleHob extends IPSModule
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'Status', '', 10);
+        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
+        
+        // Dynamisch je nach Modell Kochzonen anlegen (meistens 4-6)
+        // Wir legen prophylaktisch 4 an
+        for ($i=1; $i<=4; $i++) {
+            if (!IPS_VariableProfileExists('Miele.HobPlate')) {
+                IPS_CreateVariableProfile('Miele.HobPlate', 1);
+                IPS_SetVariableProfileIcon('Miele.HobPlate', 'Intensity');
+                IPS_SetVariableProfileAssociation('Miele.HobPlate', 0, 'Aus', '', 0xFFFFFF);
+                for ($s=1; $s<=9; $s++) {
+                    IPS_SetVariableProfileAssociation('Miele.HobPlate', $s, 'Stufe '.$s, '', -1);
+                }
+            }
+            $this->RegisterVariableInteger('Plate' . $i, '♨️ Kochzone ' . $i, '', 20 + $i);
+            
+            IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), [
+                'ICON' => 'Flame',
+                'SUFFIX' => ' Stufe'
+            ]);
+        }
     }
 
     public function ApplyChanges()

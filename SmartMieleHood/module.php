@@ -14,11 +14,11 @@ class SmartMieleHood extends IPSModule
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'Status', '', 10);
-        $this->RegisterVariableBoolean('Light', 'Licht', '~Switch', 20);
+        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
+        $this->RegisterVariableBoolean('Light', '💡 Licht', '~Switch', 20);
         $this->EnableAction('Light');
         
-        $this->RegisterVariableInteger('VentilationStep', 'Lüfterstufe', '', 30);
+        $this->RegisterVariableInteger('VentilationStep', '💨 Lüfterstufe', '', 30);
         $this->EnableAction('VentilationStep');
     }
 

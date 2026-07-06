@@ -14,15 +14,15 @@ class SmartMieleFridge extends IPSModule
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'Status', '', 15);
+        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 15);
         
-        $this->RegisterVariableFloat('Temp1', 'Ist-Temperatur (Zone 1)', '', 20);
-        $this->RegisterVariableFloat('TargetTemp1', 'Ziel-Temperatur (Zone 1)', '', 25);
+        $this->RegisterVariableFloat('Temp1', '🌡️ Ist-Temperatur (Zone 1)', '', 20);
+        $this->RegisterVariableFloat('TargetTemp1', '🎯 Ziel-Temperatur (Zone 1)', '', 25);
         $this->EnableAction('TargetTemp1');
         
-        $this->RegisterVariableBoolean('DoorOpen', 'Tür geöffnet', '~Alert', 30);
+        $this->RegisterVariableBoolean('DoorOpen', '🚪 Tür geöffnet', '~Alert', 30);
 
-        $this->RegisterVariableBoolean('SuperCooling', 'Schnellkühlen', '~Switch', 35);
+        $this->RegisterVariableBoolean('SuperCooling', '❄️ Schnellkühlen', '~Switch', 35);
         $this->EnableAction('SuperCooling');
     }
 
