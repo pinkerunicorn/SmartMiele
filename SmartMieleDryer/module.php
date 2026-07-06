@@ -77,7 +77,7 @@ class SmartMieleDryer extends IPSModule
         }
     }
 
-    protected function LogMessage(string $text): void
+    protected function Log(string $text): void
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'SmartMieleDryer: ' . $text);
     }
@@ -90,7 +90,7 @@ class SmartMieleDryer extends IPSModule
             if (isset($state['status']['value_localized'])) {
                 $newStatus = (string)$state['status']['value_localized'];
                 if (@$this->GetValue('StatusText') !== $newStatus) {
-                    $this->LogMessage("Status geändert: " . $newStatus);
+                    $this->Log("Status geändert: " . $newStatus);
                 }
                 $this->SetValue('StatusText', $newStatus);
             }

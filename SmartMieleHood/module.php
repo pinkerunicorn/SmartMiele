@@ -108,7 +108,7 @@ class SmartMieleHood extends IPSModule
         }
     }
 
-    protected function LogMessage(string $text): void
+    protected function Log(string $text): void
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'SmartMieleHood: ' . $text);
     }
@@ -117,7 +117,7 @@ class SmartMieleHood extends IPSModule
     {
         $deviceId = $this->ReadPropertyString('DeviceID');
         if (empty($deviceId)) {
-            $this->LogMessage("Device ID not configured.");
+            $this->Log("Device ID not configured.");
             echo "Device ID not configured.\n";
             return;
         }
@@ -128,12 +128,12 @@ class SmartMieleHood extends IPSModule
             case 'Light':
                 // Miele API: 1=On, 2=Off
                 $actionData['light'] = $Value ? 1 : 2;
-                $this->LogMessage("Schalte Licht: " . ($Value ? 'An' : 'Aus'));
+                $this->Log("Schalte Licht: " . ($Value ? 'An' : 'Aus'));
                 break;
             
             case 'VentilationStep':
                 $actionData['ventilationStep'] = $Value;
-                $this->LogMessage("Setze Lüfterstufe: " . $Value);
+                $this->Log("Setze Lüfterstufe: " . $Value);
                 break;
 
             default:
@@ -155,7 +155,7 @@ class SmartMieleHood extends IPSModule
             if ($success) {
                 $this->SetValue($Ident, $Value);
             } else {
-                $this->LogMessage("Fehler beim Ausführen der Aktion.");
+                $this->Log("Fehler beim Ausführen der Aktion.");
                 echo "Fehler beim Ausführen der Aktion.\n";
             }
         }
