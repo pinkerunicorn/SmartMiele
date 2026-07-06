@@ -97,7 +97,7 @@ class SmartMieleFridge extends IPSModule
                     $this->SetValue('TargetTemp1', (float)$valTarget);
                 } catch (\Throwable $e) {
                     $this->SendDebug('TargetTemp Error', $e->getMessage(), 0);
-                    IPS_LogMessage('SmartMieleFridge', 'Error setting TargetTemp1: ' . $e->getMessage());
+                    IPS_LogMessage('SmartVillaKunterbunt', 'SmartMieleFridge: ' . 'Error setting TargetTemp1: ' . $e->getMessage());
                 }
             }
             

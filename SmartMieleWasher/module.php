@@ -136,13 +136,22 @@ class SmartMieleWasher extends IPSModule
         }
     }
 
+    protected function LogMessage(string $text): void
+    {
+        IPS_LogMessage('SmartVillaKunterbunt', 'SmartMieleWasher: ' . $text);
+    }
+
     private function ProcessDeviceData(array $deviceData)
     {
         if (isset($deviceData['state'])) {
             $state = $deviceData['state'];
 
             if (isset($state['status']['value_localized'])) {
-                $this->SetValue('StatusText', (string)$state['status']['value_localized']);
+                $newStatus = (string)$state['status']['value_localized'];
+                if (@$this->GetValue('StatusText') !== $newStatus) {
+                    $this->LogMessage("Status geändert: " . $newStatus);
+                }
+                $this->SetValue('StatusText', $newStatus);
             }
             if (isset($state['signalInfo'])) {
                 $this->SetValue('SignalInfo', (bool)$state['signalInfo']);
