@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class SmartMieleSplitter extends IPSModule
 {
-    public function Create()
+    public function Create(): void
     {
         parent::Create();
         $this->RegisterPropertyString('ClientID', '');
@@ -21,7 +21,7 @@ class SmartMieleSplitter extends IPSModule
         $this->RegisterTimer('SM_UpdateData', 0, 'SM_FetchData($_IPS[\'TARGET\']);');
     }
 
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         parent::ApplyChanges();
 
@@ -104,7 +104,7 @@ class SmartMieleSplitter extends IPSModule
         return false;
     }
 
-    public function TestConnection()
+    public function TestConnection(): void
     {
         $token = $this->GetToken();
         if ($token) {
@@ -115,7 +115,7 @@ class SmartMieleSplitter extends IPSModule
         }
     }
 
-    public function FetchData()
+    public function FetchData(): void
     {
         $token = $this->GetToken();
         if (!$token) {
@@ -184,7 +184,7 @@ class SmartMieleSplitter extends IPSModule
         return false;
     }
 
-    public function ExecuteAction(string $deviceId, array $actionData)
+    public function ExecuteAction(string $deviceId, array $actionData): bool
     {
         $token = $this->GetToken();
         if (!$token) {
@@ -221,7 +221,7 @@ class SmartMieleSplitter extends IPSModule
         return false;
     }
 
-    public function ForwardData($JSONString)
+    public function ForwardData($JSONString): string
     {
         $data = json_decode($JSONString, true);
         if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {

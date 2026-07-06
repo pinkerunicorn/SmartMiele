@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class SmartMieleHood extends IPSModule
 {
-    public function Create()
+    public function Create(): void
     {
         parent::Create();
         
@@ -22,7 +22,7 @@ class SmartMieleHood extends IPSModule
         $this->EnableAction('VentilationStep');
     }
 
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         parent::ApplyChanges();
 
@@ -41,7 +41,7 @@ class SmartMieleHood extends IPSModule
         ]);
     }
 
-    public function ReceiveData($JSONString)
+    public function ReceiveData($JSONString): void
     {
         $data = json_decode($JSONString, true);
         if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {
@@ -113,7 +113,7 @@ class SmartMieleHood extends IPSModule
         IPS_LogMessage('SmartVillaKunterbunt', 'SmartMieleHood: ' . $text);
     }
 
-    public function RequestAction($Ident, $Value)
+    public function RequestAction($Ident, $Value): void
     {
         $deviceId = $this->ReadPropertyString('DeviceID');
         if (empty($deviceId)) {

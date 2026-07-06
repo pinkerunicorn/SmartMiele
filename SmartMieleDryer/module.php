@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class SmartMieleDryer extends IPSModule
 {
-    public function Create()
+    public function Create(): void
     {
         parent::Create();
         
@@ -32,7 +32,7 @@ class SmartMieleDryer extends IPSModule
         $this->RegisterVariableFloat('CurrentEnergyConsumption', '⚡ aktueller Energieverbrauch', '', 55);
     }
 
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         parent::ApplyChanges();
 
@@ -62,7 +62,7 @@ class SmartMieleDryer extends IPSModule
         ]);
     }
 
-    public function ReceiveData($JSONString)
+    public function ReceiveData($JSONString): void
     {
         $data = json_decode($JSONString, true);
         if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {

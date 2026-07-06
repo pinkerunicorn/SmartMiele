@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class SmartMieleFridge extends IPSModule
 {
-    public function Create()
+    public function Create(): void
     {
         parent::Create();
         
@@ -26,7 +26,7 @@ class SmartMieleFridge extends IPSModule
         $this->EnableAction('SuperCooling');
     }
 
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         parent::ApplyChanges();
 
@@ -47,7 +47,7 @@ class SmartMieleFridge extends IPSModule
         ]);
     }
 
-    public function ReceiveData($JSONString)
+    public function ReceiveData($JSONString): void
     {
         $data = json_decode($JSONString, true);
         if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {
@@ -136,7 +136,7 @@ class SmartMieleFridge extends IPSModule
         }
     }
 
-    public function RequestAction($Ident, $Value)
+    public function RequestAction($Ident, $Value): void
     {
         $deviceId = $this->ReadPropertyString('DeviceID');
         if (empty($deviceId)) {

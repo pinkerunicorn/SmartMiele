@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class SmartMieleHob extends IPSModule
 {
-    public function Create()
+    public function Create(): void
     {
         parent::Create();
         
@@ -37,7 +37,7 @@ class SmartMieleHob extends IPSModule
         }
     }
 
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         parent::ApplyChanges();
 
@@ -56,7 +56,7 @@ class SmartMieleHob extends IPSModule
         }
     }
 
-    public function ReceiveData($JSONString)
+    public function ReceiveData($JSONString): void
     {
         $data = json_decode($JSONString, true);
         if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {
