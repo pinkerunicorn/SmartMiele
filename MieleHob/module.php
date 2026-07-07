@@ -29,6 +29,7 @@ class MieleHob extends IPSModule
         parent::ApplyChanges();
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
+            'PRESENTATION' => 0, // VARIABLE_PRESENTATION_LABEL
             'ICON' => 'Information'
         ]);
 
@@ -45,6 +46,7 @@ class MieleHob extends IPSModule
             $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, '', 20 + $i);
             
             IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), [
+                'PRESENTATION' => 5, // VARIABLE_PRESENTATION_SELECTOR
                 'ICON' => 'Flame',
                 'SUFFIX' => ' Stufe',
                 'ASSOCIATIONS' => $associations

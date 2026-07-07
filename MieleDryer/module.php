@@ -38,42 +38,42 @@ class MieleDryer extends IPSModule
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'ICON' => 'Information'
+            'PRESENTATION' => 0,'ICON' => 'Information'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SignalFailure'), [
-            'ICON' => 'Alert'
+            'PRESENTATION' => 0,'ICON' => 'Alert'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StartTime'), [
-            'ICON' => 'Clock'
+            'PRESENTATION' => 0,'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('FinishTime'), [
-            'ICON' => 'Clock'
+            'PRESENTATION' => 0,'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ElapsedTime'), [
-            'SUFFIX' => ' min',
+            'PRESENTATION' => 0,'SUFFIX' => ' min',
             'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
-            'SUFFIX' => ' min',
+            'PRESENTATION' => 0,'SUFFIX' => ' min',
             'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ProgressPct'), [
-            'SUFFIX' => ' %',
+            'PRESENTATION' => 0,'SUFFIX' => ' %',
             'ICON' => 'Intensity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Door'), [
-            'ICON' => 'Window'
+            'PRESENTATION' => 0,'ICON' => 'Window'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentEnergyConsumption'), [
-            'SUFFIX' => ' kWh',
+            'PRESENTATION' => 0,'SUFFIX' => ' kWh',
             'ICON' => 'Electricity'
         ]);
     }

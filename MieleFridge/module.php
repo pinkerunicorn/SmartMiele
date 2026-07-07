@@ -32,7 +32,7 @@ class MieleFridge extends IPSModule
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'ICON' => 'Information'
+            'PRESENTATION' => 0,'ICON' => 'Information'
         ]);
         
         $tempPresentation = [
@@ -42,16 +42,16 @@ class MieleFridge extends IPSModule
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temp1'), $tempPresentation);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
-            'SUFFIX' => ' °C',
+            'PRESENTATION' => 0,'SUFFIX' => ' °C',
             'ICON' => 'Temperature'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('DoorOpen'), [
-            'ICON' => 'Alert'
+            'PRESENTATION' => 0,'ICON' => 'Alert'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SuperCooling'), [
-            'ICON' => 'Power'
+            'PRESENTATION' => 1,'ICON' => 'Power'
         ]);
     }
 

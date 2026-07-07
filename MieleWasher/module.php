@@ -45,67 +45,67 @@ class MieleWasher extends IPSModule
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'ICON' => 'Information'
+            'PRESENTATION' => 0,'ICON' => 'Information'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SignalFailure'), [
-            'ICON' => 'Alert'
+            'PRESENTATION' => 0,'ICON' => 'Alert'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StartTime'), [
-            'ICON' => 'Clock'
+            'PRESENTATION' => 0,'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('FinishTime'), [
-            'ICON' => 'Clock'
+            'PRESENTATION' => 0,'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ElapsedTime'), [
-            'SUFFIX' => ' min',
+            'PRESENTATION' => 0,'SUFFIX' => ' min',
             'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
-            'SUFFIX' => ' min',
+            'PRESENTATION' => 0,'SUFFIX' => ' min',
             'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ProgressPct'), [
-            'SUFFIX' => ' %',
+            'PRESENTATION' => 0,'SUFFIX' => ' %',
             'ICON' => 'Intensity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature'), [
-            'SUFFIX' => ' °C',
+            'PRESENTATION' => 0,'SUFFIX' => ' °C',
             'ICON' => 'Temperature'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SpinSpeed'), [
-            'SUFFIX' => ' U/min',
+            'PRESENTATION' => 0,'SUFFIX' => ' U/min',
             'ICON' => 'Motion'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Door'), [
-            'ICON' => 'Window'
+            'PRESENTATION' => 0,'ICON' => 'Window'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentWaterConsumption'), [
-            'SUFFIX' => ' l',
+            'PRESENTATION' => 0,'SUFFIX' => ' l',
             'ICON' => 'Drop'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentEnergyConsumption'), [
-            'SUFFIX' => ' kWh',
+            'PRESENTATION' => 0,'SUFFIX' => ' kWh',
             'ICON' => 'Electricity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos1'), [
-            'SUFFIX' => ' %',
+            'PRESENTATION' => 0,'SUFFIX' => ' %',
             'ICON' => 'Drop'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos2'), [
-            'SUFFIX' => ' %',
+            'PRESENTATION' => 0,'SUFFIX' => ' %',
             'ICON' => 'Drop'
         ]);
     }

@@ -28,11 +28,11 @@ class MieleHood extends IPSModule
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'ICON' => 'Information'
+            'PRESENTATION' => 0,'ICON' => 'Information'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Light'), [
-            'ICON' => 'Bulb'
+            'PRESENTATION' => 1,'ICON' => 'Bulb'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), [
