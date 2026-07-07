@@ -20,9 +20,9 @@ class MieleFridge extends IPSModule
         $this->RegisterVariableFloat('TargetTemp1', '🎯 Ziel-Temperatur (Zone 1)', '', 25);
         $this->EnableAction('TargetTemp1');
         
-        $this->RegisterVariableBoolean('DoorOpen', '🚪 Tür geöffnet', '~Alert', 30);
+        $this->RegisterVariableBoolean('DoorOpen', '🚪 Tür geöffnet', '', 30);
 
-        $this->RegisterVariableBoolean('SuperCooling', '❄️ Schnellkühlen', '~Switch', 35);
+        $this->RegisterVariableBoolean('SuperCooling', '❄️ Schnellkühlen', '', 35);
         $this->EnableAction('SuperCooling');
     }
 
@@ -44,6 +44,14 @@ class MieleFridge extends IPSModule
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
             'SUFFIX' => ' °C',
             'ICON' => 'Temperature'
+        ]);
+
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('DoorOpen'), [
+            'ICON' => 'Alert'
+        ]);
+
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('SuperCooling'), [
+            'ICON' => 'Power'
         ]);
     }
 

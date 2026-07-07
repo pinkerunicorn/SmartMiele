@@ -17,20 +17,20 @@ class MieleWasher extends IPSModule
         // Variables
         $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
         $this->RegisterVariableBoolean('SignalInfo', '🔔 Hinweis vorhanden', '', 11);
-        $this->RegisterVariableBoolean('SignalFailure', '⚠️ Fehler erkannt', '~Alert', 12);
+        $this->RegisterVariableBoolean('SignalFailure', '⚠️ Fehler erkannt', '', 12);
         
         $this->RegisterVariableString('ProgramName', '📝 Programmbezeichnung', '', 21);
         $this->RegisterVariableString('ProgramPhaseText', '🔄 Programm-Phase', '', 22);
         
-        $this->RegisterVariableInteger('StartTime', '▶️ Start um', '~UnixTimestampTime', 25);
-        $this->RegisterVariableInteger('FinishTime', '⏹️ Ende um', '~UnixTimestampTime', 26);
+        $this->RegisterVariableInteger('StartTime', '▶️ Start um', '', 25);
+        $this->RegisterVariableInteger('FinishTime', '⏹️ Ende um', '', 26);
         $this->RegisterVariableInteger('ElapsedTime', '⏱️ verstrichene Zeit', '', 27);
         $this->RegisterVariableInteger('RemainingTime', '⏳ verbleibende Zeit', '', 28);
-        $this->RegisterVariableInteger('ProgressPct', '📈 Arbeitsfortschritt', '~Intensity.100', 29);
+        $this->RegisterVariableInteger('ProgressPct', '📈 Arbeitsfortschritt', '', 29);
         
         $this->RegisterVariableInteger('Temperature', '🌡️ Temperatur', '', 31);
         $this->RegisterVariableInteger('SpinSpeed', '🌪️ Drehzahl', '', 32);
-        $this->RegisterVariableBoolean('Door', '🚪 Tür', '~Window', 33);
+        $this->RegisterVariableBoolean('Door', '🚪 Tür', '', 33);
         
         $this->RegisterVariableInteger('TwinDos1', '💧 TwinDos 1 Füllstand', '', 40);
         $this->RegisterVariableInteger('TwinDos2', '💧 TwinDos 2 Füllstand', '', 45);
@@ -47,6 +47,18 @@ class MieleWasher extends IPSModule
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             'ICON' => 'Information'
         ]);
+
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('SignalFailure'), [
+            'ICON' => 'Alert'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('StartTime'), [
+            'ICON' => 'Clock'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('FinishTime'), [
+            'ICON' => 'Clock'
+        ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ElapsedTime'), [
             'SUFFIX' => ' min',
@@ -60,7 +72,7 @@ class MieleWasher extends IPSModule
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ProgressPct'), [
             'SUFFIX' => ' %',
-            'ICON' => 'Graph'
+            'ICON' => 'Intensity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature'), [
@@ -73,6 +85,10 @@ class MieleWasher extends IPSModule
             'ICON' => 'Motion'
         ]);
         
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Door'), [
+            'ICON' => 'Window'
+        ]);
+
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentWaterConsumption'), [
             'SUFFIX' => ' l',
             'ICON' => 'Drop'

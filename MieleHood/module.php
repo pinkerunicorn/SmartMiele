@@ -15,7 +15,7 @@ class MieleHood extends IPSModule
         
         // Variables
         $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
-        $this->RegisterVariableBoolean('Light', '💡 Licht', '~Switch', 20);
+        $this->RegisterVariableBoolean('Light', '💡 Licht', '', 20);
         $this->EnableAction('Light');
         
         $this->RegisterVariableInteger('VentilationStep', '💨 Lüfterstufe', '', 30);
@@ -29,6 +29,10 @@ class MieleHood extends IPSModule
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             'ICON' => 'Information'
+        ]);
+
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Light'), [
+            'ICON' => 'Bulb'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), [
