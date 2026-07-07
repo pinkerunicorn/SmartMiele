@@ -20,7 +20,7 @@ class MieleHob extends IPSModule
         // Dynamisch je nach Modell Kochzonen anlegen (meistens 4-6)
         // Wir legen prophylaktisch 4 an
         for ($i=1; $i<=4; $i++) {
-            $this->RegisterVariableInteger('Plate' . $i, '♨️ Kochzone ' . $i, '', 20 + $i);
+            $this->RegisterVariableInteger('Plate' . $i, '♨️ Kochzone ' . $i, 'Miele.HobPlate', 20 + $i);
         }
     }
 
@@ -42,15 +42,17 @@ class MieleHob extends IPSModule
             $associations[] = [$s, 'Stufe '.$s, '', -1];
         }
 
+        if (!IPS_VariableProfileExists('Miele.HobPlate')) {
+            IPS_CreateVariableProfile('Miele.HobPlate', 1);
+            IPS_SetVariableProfileIcon('Miele.HobPlate', 'Flame');
+            IPS_SetVariableProfileText('Miele.HobPlate', '', ' Stufe');
+            foreach ($associations as $ass) {
+                IPS_SetVariableProfileAssociation('Miele.HobPlate', $ass[0], $ass[1], $ass[2], $ass[3]);
+            }
+        }
+
         for ($i = 1; $i <= $plates; $i++) {
-            $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, '', 20 + $i);
-            
-            IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), [
-                'PRESENTATION' => 5, // VARIABLE_PRESENTATION_SELECTOR
-                'ICON' => 'Flame',
-                'SUFFIX' => ' Stufe',
-                'ASSOCIATIONS' => $associations
-            ]);
+            $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, 'Miele.HobPlate', 20 + $i);
         }
     }
 
