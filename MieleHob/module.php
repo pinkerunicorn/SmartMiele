@@ -8,7 +8,14 @@ class MieleHob extends IPSModule
     {
         parent::Create();
         
-        $this->RegisterPropertyString('DeviceID', '');
+        
+        // Self-healing for corrupted CustomPresentations
+        foreach (@IPS_GetChildrenIDs($this->InstanceID) as $childID) {
+            if (@IPS_VariableExists($childID)) {
+                @IPS_SetVariableCustomPresentation($childID, []);
+            }
+        }
+$this->RegisterPropertyString('DeviceID', '');
         $this->RegisterPropertyInteger('PlateCount', 4);
 
         // Connect to Splitter
@@ -29,7 +36,7 @@ class MieleHob extends IPSModule
         parent::ApplyChanges();
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'PRESENTATION' => 0, // VARIABLE_PRESENTATION_LABEL
+            // VARIABLE_PRESENTATION_LABEL
             'ICON' => 'Information'
         ]);
 

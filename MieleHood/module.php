@@ -8,7 +8,14 @@ class MieleHood extends IPSModule
     {
         parent::Create();
         
-        $this->RegisterPropertyString('DeviceID', '');
+        
+        // Self-healing for corrupted CustomPresentations
+        foreach (@IPS_GetChildrenIDs($this->InstanceID) as $childID) {
+            if (@IPS_VariableExists($childID)) {
+                @IPS_SetVariableCustomPresentation($childID, []);
+            }
+        }
+$this->RegisterPropertyString('DeviceID', '');
 
         // Connect to Splitter
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
@@ -28,11 +35,11 @@ class MieleHood extends IPSModule
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'PRESENTATION' => 0,'ICON' => 'Information'
+            'ICON' => 'Information'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Light'), [
-            'PRESENTATION' => 1,'ICON' => 'Bulb'
+            'ICON' => 'Bulb'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), [

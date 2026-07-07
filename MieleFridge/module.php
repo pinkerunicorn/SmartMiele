@@ -8,7 +8,14 @@ class MieleFridge extends IPSModule
     {
         parent::Create();
         
-        $this->RegisterPropertyString('DeviceID', '');
+        
+        // Self-healing for corrupted CustomPresentations
+        foreach (@IPS_GetChildrenIDs($this->InstanceID) as $childID) {
+            if (@IPS_VariableExists($childID)) {
+                @IPS_SetVariableCustomPresentation($childID, []);
+            }
+        }
+$this->RegisterPropertyString('DeviceID', '');
 
         // Connect to Splitter
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
@@ -32,7 +39,7 @@ class MieleFridge extends IPSModule
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'PRESENTATION' => 0,'ICON' => 'Information'
+            'ICON' => 'Information'
         ]);
         
         $tempPresentation = [
@@ -42,16 +49,16 @@ class MieleFridge extends IPSModule
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temp1'), $tempPresentation);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
-            'PRESENTATION' => 0,'SUFFIX' => ' °C',
+            'SUFFIX' => ' °C',
             'ICON' => 'Temperature'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('DoorOpen'), [
-            'PRESENTATION' => 0,'ICON' => 'Alert'
+            'ICON' => 'Alert'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SuperCooling'), [
-            'PRESENTATION' => 1,'ICON' => 'Power'
+            'ICON' => 'Power'
         ]);
     }
 

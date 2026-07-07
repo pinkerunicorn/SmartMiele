@@ -7,7 +7,14 @@ class MieleSplitter extends IPSModule
     public function Create(): void
     {
         parent::Create();
-        $this->RegisterPropertyString('ClientID', '');
+        
+        // Self-healing for corrupted CustomPresentations
+        foreach (@IPS_GetChildrenIDs($this->InstanceID) as $childID) {
+            if (@IPS_VariableExists($childID)) {
+                @IPS_SetVariableCustomPresentation($childID, []);
+            }
+        }
+$this->RegisterPropertyString('ClientID', '');
         $this->RegisterPropertyString('ClientSecret', '');
         $this->RegisterPropertyString('Username', '');
         $this->RegisterPropertyString('Password', '');

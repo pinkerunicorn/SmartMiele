@@ -8,7 +8,14 @@ class MieleDryer extends IPSModule
     {
         parent::Create();
         
-        $this->RegisterPropertyString('DeviceID', '');
+        
+        // Self-healing for corrupted CustomPresentations
+        foreach (@IPS_GetChildrenIDs($this->InstanceID) as $childID) {
+            if (@IPS_VariableExists($childID)) {
+                @IPS_SetVariableCustomPresentation($childID, []);
+            }
+        }
+$this->RegisterPropertyString('DeviceID', '');
 
         // Connect to Splitter
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
@@ -38,42 +45,42 @@ class MieleDryer extends IPSModule
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'PRESENTATION' => 0,'ICON' => 'Information'
+            'ICON' => 'Information'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SignalFailure'), [
-            'PRESENTATION' => 0,'ICON' => 'Alert'
+            'ICON' => 'Alert'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StartTime'), [
-            'PRESENTATION' => 0,'ICON' => 'Clock'
+            'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('FinishTime'), [
-            'PRESENTATION' => 0,'ICON' => 'Clock'
+            'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ElapsedTime'), [
-            'PRESENTATION' => 0,'SUFFIX' => ' min',
+            'SUFFIX' => ' min',
             'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
-            'PRESENTATION' => 0,'SUFFIX' => ' min',
+            'SUFFIX' => ' min',
             'ICON' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ProgressPct'), [
-            'PRESENTATION' => 0,'SUFFIX' => ' %',
+            'SUFFIX' => ' %',
             'ICON' => 'Intensity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Door'), [
-            'PRESENTATION' => 0,'ICON' => 'Window'
+            'ICON' => 'Window'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentEnergyConsumption'), [
-            'PRESENTATION' => 0,'SUFFIX' => ' kWh',
+            'SUFFIX' => ' kWh',
             'ICON' => 'Electricity'
         ]);
     }
