@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class SmartMieleHob extends IPSModule
+class MieleHob extends IPSModule
 {
     public function Create(): void
     {

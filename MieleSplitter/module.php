@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class SmartMieleSplitter extends IPSModule
+class MieleSplitter extends IPSModule
 {
     public function Create(): void
     {

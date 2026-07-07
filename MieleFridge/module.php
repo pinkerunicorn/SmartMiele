@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-class SmartMieleHood extends IPSModule
+class MieleFridge extends IPSModule
 {
     public function Create(): void
     {
@@ -14,12 +14,16 @@ class SmartMieleHood extends IPSModule
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
-        $this->RegisterVariableBoolean('Light', '💡 Licht', '~Switch', 20);
-        $this->EnableAction('Light');
+        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 15);
         
-        $this->RegisterVariableInteger('VentilationStep', '💨 Lüfterstufe', '', 30);
-        $this->EnableAction('VentilationStep');
+        $this->RegisterVariableFloat('Temp1', '🌡️ Ist-Temperatur (Zone 1)', '', 20);
+        $this->RegisterVariableFloat('TargetTemp1', '🎯 Ziel-Temperatur (Zone 1)', '', 25);
+        $this->EnableAction('TargetTemp1');
+        
+        $this->RegisterVariableBoolean('DoorOpen', '🚪 Tür geöffnet', '~Alert', 30);
+
+        $this->RegisterVariableBoolean('SuperCooling', '❄️ Schnellkühlen', '~Switch', 35);
+        $this->EnableAction('SuperCooling');
     }
 
     public function ApplyChanges(): void
@@ -30,14 +34,16 @@ class SmartMieleHood extends IPSModule
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             'ICON' => 'Information'
         ]);
-
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), [
-            'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER, // Slider
-            'MIN' => 0.0,
-            'MAX' => 4.0,
-            'STEP' => 1.0,
-            'SUFFIX' => ' Stufe',
-            'ICON' => 'Ventilator'
+        
+        $tempPresentation = [
+            'SUFFIX' => ' °C',
+            'ICON' => 'Temperature'
+        ];
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temp1'), $tempPresentation);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
+            'SUFFIX' => ' °C',
+            'ICON' => 'Temperature'
         ]);
     }
 
@@ -51,8 +57,7 @@ class SmartMieleHood extends IPSModule
             }
 
             if (isset($data['Devices'][$deviceId])) {
-                $deviceData = $data['Devices'][$deviceId];
-                $this->ProcessDeviceData($deviceData);
+                $this->ProcessDeviceData($data['Devices'][$deviceId]);
             }
         }
     }
@@ -65,16 +70,39 @@ class SmartMieleHood extends IPSModule
             if (isset($state['status']['value_localized'])) {
                 $this->SetValue('StatusText', (string)$state['status']['value_localized']);
             }
-
-            // Light (Miele API: 1=On, 2=Off)
-            if (isset($state['light'])) {
-                $isLightOn = ($state['light'] == 1);
-                $this->SetValue('Light', (bool)$isLightOn);
+            if (isset($state['status']['value_raw'])) {
+                $statusRaw = $state['status']['value_raw'];
+                $isSuperCooling = ($statusRaw == 14 || $statusRaw == 146);
+                $this->SetValue('SuperCooling', $isSuperCooling);
             }
 
-            // VentilationStep
-            if (isset($state['ventilationStep']['value_raw'])) {
-                $this->SetValue('VentilationStep', (int)$state['ventilationStep']['value_raw']);
+            if (isset($state['temperature'][0]['value_raw'])) {
+                $valTemp = $state['temperature'][0]['value_raw'];
+                $this->SendDebug('Temp Update', 'Raw: ' . $valTemp . ' Type: ' . gettype($valTemp), 0);
+                $this->SetValue('Temp1', (float)$valTemp);
+            }
+            if (isset($state['targetTemperature'][0]['value_raw'])) {
+                $valTarget = $state['targetTemperature'][0]['value_raw'];
+                $this->SendDebug('TargetTemp Update', 'Raw: ' . $valTarget . ' Type: ' . gettype($valTarget), 0);
+                
+                $varID = @$this->GetIDForIdent('TargetTemp1');
+                if ($varID) {
+                    $varObj = @IPS_GetVariable($varID);
+                    if ($varObj) {
+                        $this->SendDebug('TargetTemp Update', 'VarID: ' . $varID . ' SymconType: ' . $varObj['VariableType'], 0);
+                    }
+                }
+
+                try {
+                    $this->SetValue('TargetTemp1', (float)$valTarget);
+                } catch (\Throwable $e) {
+                    $this->SendDebug('TargetTemp Error', $e->getMessage(), 0);
+                    IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: ' . 'Error setting TargetTemp1: ' . $e->getMessage());
+                }
+            }
+            
+            if (isset($state['signalDoor'])) {
+                $this->SetValue('DoorOpen', (bool)$state['signalDoor']);
             }
         }
     }
@@ -108,32 +136,26 @@ class SmartMieleHood extends IPSModule
         }
     }
 
-    protected function Log(string $text): void
-    {
-        IPS_LogMessage('SmartVillaKunterbunt', 'SmartMieleHood: ' . $text);
-    }
-
     public function RequestAction($Ident, $Value): void
     {
         $deviceId = $this->ReadPropertyString('DeviceID');
         if (empty($deviceId)) {
-            $this->Log("Device ID not configured.");
-            echo "Device ID not configured.\n";
             return;
         }
 
         $actionData = [];
 
         switch ($Ident) {
-            case 'Light':
-                // Miele API: 1=On, 2=Off
-                $actionData['light'] = $Value ? 1 : 2;
-                $this->Log("Schalte Licht: " . ($Value ? 'An' : 'Aus'));
+            case 'TargetTemp1':
+                $actionData['targetTemperature'] = [
+                    [
+                        'zone' => 1,
+                        'value' => $Value
+                    ]
+                ];
                 break;
-            
-            case 'VentilationStep':
-                $actionData['ventilationStep'] = $Value;
-                $this->Log("Setze Lüfterstufe: " . $Value);
+            case 'SuperCooling':
+                $actionData['processAction'] = $Value ? 6 : 7;
                 break;
 
             default:
@@ -141,7 +163,6 @@ class SmartMieleHood extends IPSModule
         }
 
         if (!empty($actionData)) {
-            // Forward to Splitter
             $payload = [
                 'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
                 'Command' => 'ExecuteAction',
@@ -154,9 +175,6 @@ class SmartMieleHood extends IPSModule
 
             if ($success) {
                 $this->SetValue($Ident, $Value);
-            } else {
-                $this->Log("Fehler beim Ausführen der Aktion.");
-                echo "Fehler beim Ausführen der Aktion.\n";
             }
         }
     }

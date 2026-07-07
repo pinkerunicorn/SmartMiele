@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-class SmartMieleDryer extends IPSModule
+class MieleWasher extends IPSModule
 {
     public function Create(): void
     {
         parent::Create();
         
         $this->RegisterPropertyString('DeviceID', '');
+        $this->RegisterPropertyBoolean('EnableTwinDos', true);
 
         // Connect to Splitter
         $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
@@ -27,8 +28,14 @@ class SmartMieleDryer extends IPSModule
         $this->RegisterVariableInteger('RemainingTime', '⏳ verbleibende Zeit', '', 28);
         $this->RegisterVariableInteger('ProgressPct', '📈 Arbeitsfortschritt', '~Intensity.100', 29);
         
+        $this->RegisterVariableInteger('Temperature', '🌡️ Temperatur', '', 31);
+        $this->RegisterVariableInteger('SpinSpeed', '🌪️ Drehzahl', '', 32);
         $this->RegisterVariableBoolean('Door', '🚪 Tür', '~Window', 33);
         
+        $this->RegisterVariableInteger('TwinDos1', '💧 TwinDos 1 Füllstand', '', 40);
+        $this->RegisterVariableInteger('TwinDos2', '💧 TwinDos 2 Füllstand', '', 45);
+        
+        $this->RegisterVariableFloat('CurrentWaterConsumption', '🚰 aktueller Wasserverbrauch', '', 50);
         $this->RegisterVariableFloat('CurrentEnergyConsumption', '⚡ aktueller Energieverbrauch', '', 55);
     }
 
@@ -56,9 +63,34 @@ class SmartMieleDryer extends IPSModule
             'ICON' => 'Graph'
         ]);
         
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature'), [
+            'SUFFIX' => ' °C',
+            'ICON' => 'Temperature'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('SpinSpeed'), [
+            'SUFFIX' => ' U/min',
+            'ICON' => 'Motion'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentWaterConsumption'), [
+            'SUFFIX' => ' l',
+            'ICON' => 'Drop'
+        ]);
+        
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentEnergyConsumption'), [
             'SUFFIX' => ' kWh',
             'ICON' => 'Electricity'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos1'), [
+            'SUFFIX' => ' %',
+            'ICON' => 'Drop'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos2'), [
+            'SUFFIX' => ' %',
+            'ICON' => 'Drop'
         ]);
     }
 
@@ -73,13 +105,40 @@ class SmartMieleDryer extends IPSModule
 
             if (isset($data['Devices'][$deviceId])) {
                 $this->ProcessDeviceData($data['Devices'][$deviceId]);
+                
+                if ($this->ReadPropertyBoolean('EnableTwinDos')) {
+                    $this->FetchFillingLevels($deviceId);
+                }
+            }
+        }
+    }
+
+    private function FetchFillingLevels($deviceId)
+    {
+        $payload = [
+            'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+            'Command' => 'ApiGet',
+            'Endpoint' => '/v1/devices/' . urlencode($deviceId) . '/fillingLevels'
+        ];
+        
+        $result = $this->SendDataToParent(json_encode($payload));
+        $fillingLevels = json_decode($result, true);
+        
+        if ($fillingLevels) {
+            if (isset($fillingLevels['twinDosContainer1FillingLevel'])) {
+                $val = is_array($fillingLevels['twinDosContainer1FillingLevel']) ? $fillingLevels['twinDosContainer1FillingLevel']['value_raw'] : $fillingLevels['twinDosContainer1FillingLevel'];
+                $this->SetValue('TwinDos1', (int)$val);
+            }
+            if (isset($fillingLevels['twinDosContainer2FillingLevel'])) {
+                $val = is_array($fillingLevels['twinDosContainer2FillingLevel']) ? $fillingLevels['twinDosContainer2FillingLevel']['value_raw'] : $fillingLevels['twinDosContainer2FillingLevel'];
+                $this->SetValue('TwinDos2', (int)$val);
             }
         }
     }
 
     protected function Log(string $text): void
     {
-        IPS_LogMessage('SmartVillaKunterbunt', 'SmartMieleDryer: ' . $text);
+        IPS_LogMessage('SmartVillaKunterbunt', 'MieleWasher: ' . $text);
     }
 
     private function ProcessDeviceData(array $deviceData)
@@ -108,10 +167,27 @@ class SmartMieleDryer extends IPSModule
                 $this->SetValue('ProgramPhaseText', (string)$state['programPhase']['value_localized']);
             }
 
+            if (isset($state['targetTemperature'][0]['value_raw'])) {
+                $t = $state['targetTemperature'][0]['value_raw'];
+                if ($t > -100) {
+                    if ($t >= 1000) {
+                        $this->SetValue('Temperature', (int)($t / 100));
+                    } else {
+                        $this->SetValue('Temperature', (int)$t);
+                    }
+                }
+            }
+            if (isset($state['spinningSpeed']['value_raw'])) {
+                $s = $state['spinningSpeed']['value_raw'];
+                if ($s > -1) $this->SetValue('SpinSpeed', (int)$s);
+            }
             if (isset($state['signalDoor'])) {
                 $this->SetValue('Door', (bool)$state['signalDoor']);
             }
             
+            if (isset($state['ecoFeedback']['currentWaterConsumption']['value'])) {
+                $this->SetValue('CurrentWaterConsumption', (float)$state['ecoFeedback']['currentWaterConsumption']['value']);
+            }
             if (isset($state['ecoFeedback']['currentEnergyConsumption']['value'])) {
                 $this->SetValue('CurrentEnergyConsumption', (float)$state['ecoFeedback']['currentEnergyConsumption']['value']);
             }
@@ -157,7 +233,8 @@ class SmartMieleDryer extends IPSModule
                         $startTime = $expectedStart;
                     }
                 } else {
-                    // Falls der Trockner keine ElapsedTime schickt, berechnen wir sie selbst
+                    // Miele Waschmaschinen senden oft KEINE verstrichene Zeit.
+                    // Wir frieren die Startzeit ein und berechnen die verstrichene Zeit selbst!
                     if ($oldStart > 0 && $oldStart <= time()) {
                         $startTime = $oldStart;
                     } else {
@@ -216,6 +293,11 @@ class SmartMieleDryer extends IPSModule
 
         if ($state && is_array($state) && !isset($state['message'])) {
             $this->ProcessDeviceData(['state' => $state]);
+            
+            if ($this->ReadPropertyBoolean('EnableTwinDos')) {
+                $this->FetchFillingLevels($deviceId);
+            }
+            
             echo "Gerät erfolgreich aktualisiert!\n";
         } else {
             if (isset($state['message'])) {
