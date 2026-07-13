@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-class MieleFridge extends IPSModule
+class MieleFridge extends IPSModuleStrict
 {
-    public function Create(): void
-    {
+    public function Create(): void{
         parent::Create();
         
         
@@ -33,8 +32,7 @@ $this->RegisterPropertyString('DeviceID', '');
         $this->EnableAction('SuperCooling');
     }
 
-    public function ApplyChanges(): void
-    {
+    public function ApplyChanges(): void{
         parent::ApplyChanges();
 
         // Symcon 8 Custom Presentations
@@ -62,19 +60,21 @@ $this->RegisterPropertyString('DeviceID', '');
         ]);
     }
 
-    public function ReceiveData($JSONString): void
+    public function ReceiveData(string $JSONString): string
     {
         $data = json_decode($JSONString, true);
         if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {
             $deviceId = $this->ReadPropertyString('DeviceID');
             if (empty($deviceId)) {
-                return;
+                return "";
             }
 
             if (isset($data['Devices'][$deviceId])) {
                 $this->ProcessDeviceData($data['Devices'][$deviceId]);
             }
         }
+    
+        return "";
     }
 
     private function ProcessDeviceData(array $deviceData)
@@ -151,8 +151,7 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    public function RequestAction($Ident, $Value): void
-    {
+    public function RequestAction(string $Ident, $Value): void{
         $deviceId = $this->ReadPropertyString('DeviceID');
         if (empty($deviceId)) {
             return;
@@ -194,9 +193,10 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    protected function LogMessage($Message, $Type)
+    protected function LogMessage(string $Message, int $Type): bool
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: ' . $Message);
+        return true;
     }
 }
 

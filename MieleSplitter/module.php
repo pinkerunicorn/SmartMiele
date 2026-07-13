@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-class MieleSplitter extends IPSModule
+class MieleSplitter extends IPSModuleStrict
 {
-    public function Create(): void
-    {
+    public function Create(): void{
         parent::Create();
         
         // Self-healing for corrupted CustomPresentations
@@ -28,8 +27,7 @@ $this->RegisterPropertyString('ClientID', '');
         $this->RegisterTimer('SM_UpdateData', 0, 'SM_FetchData($_IPS[\'TARGET\']);');
     }
 
-    public function ApplyChanges(): void
-    {
+    public function ApplyChanges(): void{
         parent::ApplyChanges();
 
         $interval = $this->ReadPropertyInteger('UpdateInterval');
@@ -228,7 +226,7 @@ $this->RegisterPropertyString('ClientID', '');
         return false;
     }
 
-    public function ForwardData($JSONString): string
+    public function ForwardData(string $JSONString): string
     {
         $data = json_decode($JSONString, true);
         if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {
@@ -244,9 +242,10 @@ $this->RegisterPropertyString('ClientID', '');
         return '{}';
     }
 
-    protected function LogMessage($Message, $Type)
+    protected function LogMessage(string $Message, int $Type): bool
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleSplitter: ' . $Message);
+        return true;
     }
 }
 

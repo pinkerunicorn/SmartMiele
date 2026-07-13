@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-class MieleHob extends IPSModule
+class MieleHob extends IPSModuleStrict
 {
-    public function Create(): void
-    {
+    public function Create(): void{
         parent::Create();
         
         
@@ -31,8 +30,7 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    public function ApplyChanges(): void
-    {
+    public function ApplyChanges(): void{
         parent::ApplyChanges();
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
@@ -63,19 +61,21 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    public function ReceiveData($JSONString): void
+    public function ReceiveData(string $JSONString): string
     {
         $data = json_decode($JSONString, true);
         if ($data['DataID'] == '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}') {
             $deviceId = $this->ReadPropertyString('DeviceID');
             if (empty($deviceId)) {
-                return;
+                return "";
             }
 
             if (isset($data['Devices'][$deviceId])) {
                 $this->ProcessDeviceData($data['Devices'][$deviceId]);
             }
         }
+    
+        return "";
     }
 
     private function ProcessDeviceData(array $deviceData)
@@ -127,9 +127,10 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    protected function LogMessage($Message, $Type)
+    protected function LogMessage(string $Message, int $Type): bool
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleHob: ' . $Message);
+        return true;
     }
 }
 
