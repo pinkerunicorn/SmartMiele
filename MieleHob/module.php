@@ -15,7 +15,7 @@ class MieleHob extends IPSModuleStrict
         // Self-healing for corrupted CustomPresentations
         foreach (@IPS_GetChildrenIDs($this->InstanceID) as $childID) {
             if (@IPS_VariableExists($childID)) {
-                @IPS_SetVariableCustomPresentation($childID, json_encode([]));
+                @IPS_SetVariableCustomPresentation($childID, []);
             }
         }
         
@@ -35,10 +35,10 @@ class MieleHob extends IPSModuleStrict
     public function ApplyChanges(): void{
         parent::ApplyChanges();
 
-        IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), json_encode([
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             // VARIABLE_PRESENTATION_LABEL
             'ICON' => 'Information'
-        ]));
+        ]);
 
         $plates = $this->ReadPropertyInteger('PlateCount');
         
@@ -51,11 +51,11 @@ class MieleHob extends IPSModuleStrict
 
         for ($i = 1; $i <= $plates; $i++) {
             $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, '', 20 + $i);
-            IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), json_encode([
+            IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), [
                 'ICON' => 'Flame',
                 'SUFFIX' => ' Stufe',
                 'ASSOCIATIONS' => $associations
-            ]));
+            ]);
         }
     }
 
