@@ -37,7 +37,7 @@ class MieleHob extends IPSModuleStrict
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             // VARIABLE_PRESENTATION_LABEL
-            'Icon' => 'Information'
+            'ICON' => 'Information'
         ]);
 
         $plates = $this->ReadPropertyInteger('PlateCount');

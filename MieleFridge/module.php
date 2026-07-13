@@ -42,26 +42,26 @@ $this->RegisterPropertyString('DeviceID', '');
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'Icon' => 'Information'
+            'ICON' => 'Information'
         ]);
         
         $tempPresentation = [
-            'Suffix' => ' °C',
-            'Icon' => 'Temperature'
+            'SUFFIX' => ' °C',
+            'ICON' => 'Temperature'
         ];
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temp1'), $tempPresentation);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
-            'Suffix' => ' °C',
-            'Icon' => 'Temperature'
+            'SUFFIX' => ' °C',
+            'ICON' => 'Temperature'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('DoorOpen'), [
-            'Icon' => 'Alert'
+            'ICON' => 'Alert'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SuperCooling'), [
-            'Icon' => 'Power'
+            'ICON' => 'Power'
         ]);
     }
 
