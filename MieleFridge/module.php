@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 class MieleFridge extends IPSModuleStrict
 {
-    public function GetCompatibleParents(): string
-    {
-        return '["{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}"]';
-    }
 
     public function Create(): void{
         parent::Create();
