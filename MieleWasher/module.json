@@ -3,9 +3,17 @@
     "name": "Miele Washer",
     "type": 3,
     "vendor": "Miele",
-    "aliases": ["Miele Washer"],
-    "parentRequirements": ["{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"],
+    "aliases": [
+        "Miele Washer"
+    ],
+    "parentRequirements": [
+        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+    ],
     "childRequirements": [],
-    "implemented": ["{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"],
-    "prefix": "SM"
+    "implemented": [
+        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+    ],
+    "prefix": "SM",
+    "author": "Florian Graßinger",
+    "url": "https://github.com/pinkerunicorn/"
 }
