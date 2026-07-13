@@ -172,9 +172,10 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    protected function LogMessage($Message, $KL_MESSAGE = KL_MESSAGE)
+    protected function LogMessage(string $Message, int $Type): bool
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleHood: ' . $Message);
+        return true;
     }
 }
 

@@ -244,9 +244,10 @@ $this->RegisterPropertyString('ClientID', '');
         return '{}';
     }
 
-    protected function LogMessage($Message, $KL_MESSAGE = KL_MESSAGE)
+    protected function LogMessage(string $Message, int $Type): bool
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleSplitter: ' . $Message);
+        return true;
     }
 }
 
