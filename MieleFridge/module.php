@@ -204,5 +204,28 @@ $this->RegisterPropertyString('DeviceID', '');
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: ' . $Message);
         return true;
     }
+
+    public function GetConfigurationForm(): string
+    {
+        return <<<'EOT'
+{
+    "elements": [
+        {
+            "type": "ValidationTextBox",
+            "name": "DeviceID",
+            "caption": "Miele Device ID (fabNumber)"
+        }
+    ],
+    "actions": [
+        {
+            "type": "Button",
+            "caption": "Gerät aktualisieren",
+            "onClick": "SM_UpdateDevice($id);"
+        }
+    ]
 }
+EOT;
+    }
+}
+
 

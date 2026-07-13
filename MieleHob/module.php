@@ -130,4 +130,34 @@ class MieleHob extends IPSModuleStrict
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleHob: ' . $Message);
         return true;
     }
+
+    public function GetConfigurationForm(): string
+    {
+        return <<<'EOT'
+{
+    "elements": [
+        {
+            "type": "ValidationTextBox",
+            "name": "DeviceID",
+            "caption": "Miele Device ID (fabNumber)"
+        },
+        {
+            "type": "NumberSpinner",
+            "name": "PlateCount",
+            "caption": "Anzahl Kochzonen",
+            "minimum": 1,
+            "maximum": 6
+        }
+    ],
+    "actions": [
+        {
+            "type": "Button",
+            "caption": "Gerät aktualisieren",
+            "onClick": "SM_UpdateDevice($id);"
+        }
+    ]
 }
+EOT;
+    }
+}
+
