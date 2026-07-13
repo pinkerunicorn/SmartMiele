@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 class MieleWasher extends IPSModuleStrict
 {
+    public function GetCompatibleParents(): string
+    {
+        return '["{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}"]';
+    }
+
     public function Create(): void{
         parent::Create();
         
@@ -18,7 +23,7 @@ $this->RegisterPropertyString('DeviceID', '');
         $this->RegisterPropertyBoolean('EnableTwinDos', true);
 
         // Connect to Splitter
-        $this->ConnectParent('{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}');
+
         
         // Variables
         $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
