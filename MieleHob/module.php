@@ -42,20 +42,19 @@ class MieleHob extends IPSModuleStrict
 
         $plates = $this->ReadPropertyInteger('PlateCount');
         
-        $associations = [
-            ['Value' => 0, 'Name' => 'Aus', 'Icon' => '', 'Color' => 0xFFFFFF]
-        ];
-        for ($s=1; $s<=9; $s++) {
-            $associations[] = ['Value' => $s, 'Name' => 'Stufe '.$s, 'Icon' => '', 'Color' => -1];
+        if (!IPS_VariableProfileExists('Miele.PlateLevel')) {
+            IPS_CreateVariableProfile('Miele.PlateLevel', 1);
+            IPS_SetVariableProfileIcon('Miele.PlateLevel', 'Flame');
+            IPS_SetVariableProfileText('Miele.PlateLevel', '', ' Stufe');
+            IPS_SetVariableProfileAssociation('Miele.PlateLevel', 0, 'Aus', '', 0xFFFFFF);
+            for ($s=1; $s<=9; $s++) {
+                IPS_SetVariableProfileAssociation('Miele.PlateLevel', $s, 'Stufe '.$s, '', -1);
+            }
         }
 
         for ($i = 1; $i <= $plates; $i++) {
             $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, '', 20 + $i);
-            IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), [
-                'Icon' => 'Flame',
-                'Suffix' => ' Stufe',
-                'Associations' => $associations
-            ]);
+            IPS_SetVariableCustomProfile($this->GetIDForIdent('Plate' . $i), 'Miele.PlateLevel');
         }
     }
 
