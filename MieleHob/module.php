@@ -35,6 +35,7 @@ class MieleHob extends IPSModuleStrict
     public function ApplyChanges(): void{
         parent::ApplyChanges();
 
+
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             // VARIABLE_PRESENTATION_LABEL
             'ICON' => 'Information'

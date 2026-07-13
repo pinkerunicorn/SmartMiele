@@ -36,6 +36,7 @@ $this->RegisterPropertyString('DeviceID', '');
     public function ApplyChanges(): void{
         parent::ApplyChanges();
 
+
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             'ICON' => 'Information'

@@ -30,6 +30,7 @@ $this->RegisterPropertyString('ClientID', '');
     public function ApplyChanges(): void{
         parent::ApplyChanges();
 
+
         $interval = $this->ReadPropertyInteger('UpdateInterval');
         if ($interval < 30) {
             $interval = 30;
