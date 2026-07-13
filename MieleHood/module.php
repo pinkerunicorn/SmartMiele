@@ -38,20 +38,20 @@ $this->RegisterPropertyString('DeviceID', '');
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'ICON' => 'Information'
+            'Icon' => 'Information'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Light'), [
-            'ICON' => 'Bulb'
+            'Icon' => 'Bulb'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), [
-            'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER, // Slider
-            'MIN' => 0.0,
-            'MAX' => 4.0,
-            'STEP' => 1.0,
-            'SUFFIX' => ' Stufe',
-            'ICON' => 'Ventilator'
+            'Presentation' => VARIABLE_PRESENTATION_SLIDER, // Slider
+            'Min' => 0.0,
+            'Max' => 4.0,
+            'Step' => 1.0,
+            'Suffix' => ' Stufe',
+            'Icon' => 'Ventilator'
         ]);
     }
 

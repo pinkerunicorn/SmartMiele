@@ -37,24 +37,24 @@ class MieleHob extends IPSModuleStrict
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
             // VARIABLE_PRESENTATION_LABEL
-            'ICON' => 'Information'
+            'Icon' => 'Information'
         ]);
 
         $plates = $this->ReadPropertyInteger('PlateCount');
         
         $associations = [
-            ['VALUE' => 0, 'NAME' => 'Aus', 'ICON' => '', 'COLOR' => 0xFFFFFF]
+            ['Value' => 0, 'Name' => 'Aus', 'Icon' => '', 'Color' => 0xFFFFFF]
         ];
         for ($s=1; $s<=9; $s++) {
-            $associations[] = ['VALUE' => $s, 'NAME' => 'Stufe '.$s, 'ICON' => '', 'COLOR' => -1];
+            $associations[] = ['Value' => $s, 'Name' => 'Stufe '.$s, 'Icon' => '', 'Color' => -1];
         }
 
         for ($i = 1; $i <= $plates; $i++) {
             $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, '', 20 + $i);
             IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), [
-                'ICON' => 'Flame',
-                'SUFFIX' => ' Stufe',
-                'ASSOCIATIONS' => $associations
+                'Icon' => 'Flame',
+                'Suffix' => ' Stufe',
+                'Associations' => $associations
             ]);
         }
     }

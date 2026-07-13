@@ -55,68 +55,68 @@ $this->RegisterPropertyString('DeviceID', '');
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-            'ICON' => 'Information'
+            'Icon' => 'Information'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SignalFailure'), [
-            'ICON' => 'Alert'
+            'Icon' => 'Alert'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StartTime'), [
-            'ICON' => 'Clock'
+            'Icon' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('FinishTime'), [
-            'ICON' => 'Clock'
+            'Icon' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ElapsedTime'), [
-            'SUFFIX' => ' min',
-            'ICON' => 'Clock'
+            'Suffix' => ' min',
+            'Icon' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
-            'SUFFIX' => ' min',
-            'ICON' => 'Clock'
+            'Suffix' => ' min',
+            'Icon' => 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ProgressPct'), [
-            'SUFFIX' => ' %',
-            'ICON' => 'Intensity'
+            'Suffix' => ' %',
+            'Icon' => 'Intensity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature'), [
-            'SUFFIX' => ' °C',
-            'ICON' => 'Temperature'
+            'Suffix' => ' °C',
+            'Icon' => 'Temperature'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SpinSpeed'), [
-            'SUFFIX' => ' U/min',
-            'ICON' => 'Motion'
+            'Suffix' => ' U/min',
+            'Icon' => 'Motion'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Door'), [
-            'ICON' => 'Window'
+            'Icon' => 'Window'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentWaterConsumption'), [
-            'SUFFIX' => ' l',
-            'ICON' => 'Drop'
+            'Suffix' => ' l',
+            'Icon' => 'Drop'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentEnergyConsumption'), [
-            'SUFFIX' => ' kWh',
-            'ICON' => 'Electricity'
+            'Suffix' => ' kWh',
+            'Icon' => 'Electricity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos1'), [
-            'SUFFIX' => ' %',
-            'ICON' => 'Drop'
+            'Suffix' => ' %',
+            'Icon' => 'Drop'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos2'), [
-            'SUFFIX' => ' %',
-            'ICON' => 'Drop'
+            'Suffix' => ' %',
+            'Icon' => 'Drop'
         ]);
     }
 
