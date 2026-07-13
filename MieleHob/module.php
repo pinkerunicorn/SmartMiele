@@ -12,26 +12,23 @@ class MieleHob extends IPSModuleStrict
     public function Create(): void{
         parent::Create();
         
-        
         // Self-healing for corrupted CustomPresentations
         foreach (@IPS_GetChildrenIDs($this->InstanceID) as $childID) {
             if (@IPS_VariableExists($childID)) {
                 @IPS_SetVariableCustomPresentation($childID, []);
             }
         }
-$this->RegisterPropertyString('DeviceID', '');
+        
+        $this->RegisterPropertyString('DeviceID', '');
         $this->RegisterPropertyInteger('PlateCount', 4);
 
-        // Connect to Splitter
-
-        
         // Variables
         $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
         
         // Dynamisch je nach Modell Kochzonen anlegen (meistens 4-6)
         // Wir legen prophylaktisch 4 an
         for ($i=1; $i<=4; $i++) {
-            $this->RegisterVariableInteger('Plate' . $i, '♨️ Kochzone ' . $i, 'Miele.HobPlate', 20 + $i);
+            $this->RegisterVariableInteger('Plate' . $i, '♨️ Kochzone ' . $i, '', 20 + $i);
         }
     }
 
@@ -46,23 +43,19 @@ $this->RegisterPropertyString('DeviceID', '');
         $plates = $this->ReadPropertyInteger('PlateCount');
         
         $associations = [
-            [0, 'Aus', '', 0xFFFFFF]
+            ['VALUE' => 0, 'NAME' => 'Aus', 'ICON' => '', 'COLOR' => 0xFFFFFF]
         ];
         for ($s=1; $s<=9; $s++) {
-            $associations[] = [$s, 'Stufe '.$s, '', -1];
-        }
-
-        if (!IPS_VariableProfileExists('Miele.HobPlate')) {
-            IPS_CreateVariableProfile('Miele.HobPlate', 1);
-            IPS_SetVariableProfileIcon('Miele.HobPlate', 'Flame');
-            IPS_SetVariableProfileText('Miele.HobPlate', '', ' Stufe');
-            foreach ($associations as $ass) {
-                IPS_SetVariableProfileAssociation('Miele.HobPlate', $ass[0], $ass[1], $ass[2], $ass[3]);
-            }
+            $associations[] = ['VALUE' => $s, 'NAME' => 'Stufe '.$s, 'ICON' => '', 'COLOR' => -1];
         }
 
         for ($i = 1; $i <= $plates; $i++) {
-            $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, 'Miele.HobPlate', 20 + $i);
+            $this->RegisterVariableInteger('Plate' . $i, 'Kochzone ' . $i, '', 20 + $i);
+            IPS_SetVariableCustomPresentation($this->GetIDForIdent('Plate' . $i), [
+                'ICON' => 'Flame',
+                'SUFFIX' => ' Stufe',
+                'ASSOCIATIONS' => $associations
+            ]);
         }
     }
 
@@ -83,7 +76,7 @@ $this->RegisterPropertyString('DeviceID', '');
         return "";
     }
 
-    private function ProcessDeviceData(array $deviceData)
+    private function ProcessDeviceData(array $deviceData): void
     {
         if (isset($deviceData['state'])) {
             $state = $deviceData['state'];
@@ -103,7 +96,7 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    public function UpdateDevice()
+    public function UpdateDevice(): void
     {
         $deviceId = $this->ReadPropertyString('DeviceID');
         if (empty($deviceId)) {
@@ -138,4 +131,3 @@ $this->RegisterPropertyString('DeviceID', '');
         return true;
     }
 }
-
