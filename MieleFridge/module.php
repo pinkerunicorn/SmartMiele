@@ -194,10 +194,9 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    protected function LogMessage(string $Message, int $Type): bool
+    protected function LogMessage($Message, $Type)
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: ' . $Message);
-        return true;
     }
 }
 

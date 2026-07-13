@@ -249,10 +249,9 @@ $this->RegisterPropertyString('DeviceID', '');
         }
     }
 
-    protected function LogMessage(string $Message, int $Type): bool
+    protected function LogMessage($Message, $Type)
     {
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleDryer: ' . $Message);
-        return true;
     }
 }
 
