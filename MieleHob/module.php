@@ -137,16 +137,21 @@ class MieleHob extends IPSModuleStrict
 {
     "elements": [
         {
-            "type": "ValidationTextBox",
-            "name": "DeviceID",
-            "caption": "Miele Device ID (fabNumber)"
-        },
-        {
-            "type": "NumberSpinner",
-            "name": "PlateCount",
-            "caption": "Anzahl Kochzonen",
-            "minimum": 1,
-            "maximum": 6
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "ValidationTextBox",
+                    "name": "DeviceID",
+                    "caption": "Miele Device ID (fabNumber)"
+                },
+                {
+                    "type": "NumberSpinner",
+                    "name": "PlateCount",
+                    "caption": "Anzahl Kochzonen",
+                    "minimum": 1,
+                    "maximum": 6
+                }
+            ]
         }
     ],
     "actions": [

@@ -349,14 +349,19 @@ $this->RegisterPropertyString('DeviceID', '');
 {
     "elements": [
         {
-            "type": "ValidationTextBox",
-            "name": "DeviceID",
-            "caption": "Miele Device ID (fabNumber)"
-        },
-        {
-            "type": "CheckBox",
-            "name": "EnableTwinDos",
-            "caption": "Enable TwinDos Variables (Level 1 & 2)"
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "ValidationTextBox",
+                    "name": "DeviceID",
+                    "caption": "Miele Device ID (fabNumber)"
+                },
+                {
+                    "type": "CheckBox",
+                    "name": "EnableTwinDos",
+                    "caption": "Enable TwinDos Variables (Level 1 & 2)"
+                }
+            ]
         }
     ],
     "actions": [

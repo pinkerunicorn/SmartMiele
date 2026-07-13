@@ -255,19 +255,29 @@ $this->RegisterPropertyString('ClientID', '');
 {
     "elements": [
         {
-            "type": "ValidationTextBox",
-            "name": "ClientID",
-            "caption": "Client ID"
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "ValidationTextBox",
+                    "name": "ClientID",
+                    "caption": "Client ID"
+                },
+                {
+                    "type": "ValidationTextBox",
+                    "name": "ClientSecret",
+                    "caption": "Client Secret"
+                }
+            ]
         },
         {
-            "type": "ValidationTextBox",
-            "name": "ClientSecret",
-            "caption": "Client Secret"
-        },
-        {
-            "type": "ValidationTextBox",
-            "name": "Username",
-            "caption": "Miele Username (Email)"
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "ValidationTextBox",
+                    "name": "Username",
+                    "caption": "Miele Username (Email)"
+                }
+            ]
         },
         {
             "type": "PasswordTextBox",
@@ -305,7 +315,8 @@ $this->RegisterPropertyString('ClientID', '');
         {
             "type": "Button",
             "caption": "Test Connection",
-            "onClick": "SM_TestConnection($id);"
+            "onClick": "SM_TestConnection($id);",
+            "icon": "Play"
         },
         {
             "type": "Button",

@@ -267,9 +267,14 @@ $this->RegisterPropertyString('DeviceID', '');
 {
     "elements": [
         {
-            "type": "ValidationTextBox",
-            "name": "DeviceID",
-            "caption": "Miele Device ID (fabNumber)"
+            "type": "RowLayout",
+            "items": [
+                {
+                    "type": "ValidationTextBox",
+                    "name": "DeviceID",
+                    "caption": "Miele Device ID (fabNumber)"
+                }
+            ]
         }
     ],
     "actions": [
