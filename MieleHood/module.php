@@ -35,10 +35,12 @@ $this->RegisterPropertyString('DeviceID', '');
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
+                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
             'ICON' => 'Information'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Light'), [
+                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
             'ICON' => 'Bulb'
         ]);
 
