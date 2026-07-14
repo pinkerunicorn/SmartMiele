@@ -21,15 +21,15 @@ $this->RegisterPropertyString('DeviceID', '');
 
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 15);
+        $this->RegisterVariableString('StatusText', 'ℹ Status', '', 15);
         
-        $this->RegisterVariableFloat('Temp1', '🌡️ Ist-Temperatur (Zone 1)', '', 20);
+        $this->RegisterVariableFloat('Temp1', '🌡 Ist-Temperatur (Zone 1)', '', 20);
         $this->RegisterVariableFloat('TargetTemp1', '🎯 Ziel-Temperatur (Zone 1)', '', 25);
         $this->EnableAction('TargetTemp1');
         
         $this->RegisterVariableBoolean('DoorOpen', '🚪 Tür geöffnet', '', 30);
 
-        $this->RegisterVariableBoolean('SuperCooling', '❄️ Schnellkühlen', '', 35);
+        $this->RegisterVariableBoolean('SuperCooling', '❄ Schnellkühlen', '', 35);
         $this->EnableAction('SuperCooling');
     }
 
@@ -39,31 +39,31 @@ $this->RegisterPropertyString('DeviceID', '');
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Information'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Information'
         ]);
         
         $tempPresentation = [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' °C',
-            'ICON' => 'Temperature'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> '°C',
+            'ICON'=> 'Temperature'
         ];
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temp1'), $tempPresentation);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' °C',
-            'ICON' => 'Temperature'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> '°C',
+            'ICON'=> 'Temperature'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('DoorOpen'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Alert'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Alert'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SuperCooling'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Power'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Power'
         ]);
     }
 
@@ -100,18 +100,18 @@ $this->RegisterPropertyString('DeviceID', '');
 
             if (isset($state['temperature'][0]['value_raw'])) {
                 $valTemp = $state['temperature'][0]['value_raw'];
-                $this->SendDebug('Temp Update', 'Raw: ' . $valTemp . ' Type: ' . gettype($valTemp), 0);
+                $this->SendDebug('Temp Update', 'Raw: '. $valTemp . 'Type: '. gettype($valTemp), 0);
                 $this->SetValue('Temp1', (float)$valTemp);
             }
             if (isset($state['targetTemperature'][0]['value_raw'])) {
                 $valTarget = $state['targetTemperature'][0]['value_raw'];
-                $this->SendDebug('TargetTemp Update', 'Raw: ' . $valTarget . ' Type: ' . gettype($valTarget), 0);
+                $this->SendDebug('TargetTemp Update', 'Raw: '. $valTarget . 'Type: '. gettype($valTarget), 0);
                 
                 $varID = @$this->GetIDForIdent('TargetTemp1');
                 if ($varID) {
                     $varObj = @IPS_GetVariable($varID);
                     if ($varObj) {
-                        $this->SendDebug('TargetTemp Update', 'VarID: ' . $varID . ' SymconType: ' . $varObj['VariableType'], 0);
+                        $this->SendDebug('TargetTemp Update', 'VarID: '. $varID . 'SymconType: '. $varObj['VariableType'], 0);
                     }
                 }
 
@@ -119,7 +119,7 @@ $this->RegisterPropertyString('DeviceID', '');
                     $this->SetValue('TargetTemp1', (float)$valTarget);
                 } catch (\Throwable $e) {
                     $this->SendDebug('TargetTemp Error', $e->getMessage(), 0);
-                    IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: ' . 'Error setting TargetTemp1: ' . $e->getMessage());
+                    IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: '. 'Error setting TargetTemp1: '. $e->getMessage());
                 }
             }
             
@@ -138,20 +138,20 @@ $this->RegisterPropertyString('DeviceID', '');
         }
 
         $payload = [
-            'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
-            'Command' => 'ApiGet',
-            'Endpoint' => '/v1/devices/' . urlencode($deviceId) . '/state'
+            'DataID'=> '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+            'Command'=> 'ApiGet',
+            'Endpoint'=> '/v1/devices/'. urlencode($deviceId) . '/state'
         ];
         
         $result = $this->SendDataToParent(json_encode($payload));
         $state = json_decode($result, true);
 
         if ($state && is_array($state) && !isset($state['message'])) {
-            $this->ProcessDeviceData(['state' => $state]);
+            $this->ProcessDeviceData(['state'=> $state]);
             echo "Gerät erfolgreich aktualisiert!\n";
         } else {
             if (isset($state['message'])) {
-                echo "Fehler beim Update: " . $state['message'] . "\n";
+                echo "Fehler beim Update: ". $state['message'] . "\n";
             } else {
                 echo "Fehler beim Update: Konnte keine Daten abrufen. Bitte API-Verbindung und Device ID prüfen.\n";
             }
@@ -170,8 +170,8 @@ $this->RegisterPropertyString('DeviceID', '');
             case 'TargetTemp1':
                 $actionData['targetTemperature'] = [
                     [
-                        'zone' => 1,
-                        'value' => $Value
+                        'zone'=> 1,
+                        'value'=> $Value
                     ]
                 ];
                 break;
@@ -185,10 +185,10 @@ $this->RegisterPropertyString('DeviceID', '');
 
         if (!empty($actionData)) {
             $payload = [
-                'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
-                'Command' => 'ExecuteAction',
-                'DeviceID' => $deviceId,
-                'ActionData' => $actionData
+                'DataID'=> '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+                'Command'=> 'ExecuteAction',
+                'DeviceID'=> $deviceId,
+                'ActionData'=> $actionData
             ];
             
             $result = $this->SendDataToParent(json_encode($payload));
@@ -202,7 +202,7 @@ $this->RegisterPropertyString('DeviceID', '');
 
     protected function LogMessage(string $Message, int $Type): bool
     {
-        IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: ' . $Message);
+        IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: '. $Message);
         return true;
     }
 

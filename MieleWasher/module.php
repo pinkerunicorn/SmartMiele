@@ -22,25 +22,25 @@ $this->RegisterPropertyString('DeviceID', '');
 
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
+        $this->RegisterVariableString('StatusText', 'ℹ Status', '', 10);
         $this->RegisterVariableBoolean('SignalInfo', '🔔 Hinweis vorhanden', '', 11);
-        $this->RegisterVariableBoolean('SignalFailure', '⚠️ Fehler erkannt', '', 12);
+        $this->RegisterVariableBoolean('SignalFailure', 'Fehler erkannt', '', 12);
         
         $this->RegisterVariableString('ProgramName', '📝 Programmbezeichnung', '', 21);
         $this->RegisterVariableString('ProgramPhaseText', '🔄 Programm-Phase', '', 22);
         
-        $this->RegisterVariableInteger('StartTime', '▶️ Start um', '', 25);
-        $this->RegisterVariableInteger('FinishTime', '⏹️ Ende um', '', 26);
-        $this->RegisterVariableInteger('ElapsedTime', '⏱️ verstrichene Zeit', '', 27);
+        $this->RegisterVariableInteger('StartTime', '▶ Start um', '', 25);
+        $this->RegisterVariableInteger('FinishTime', '⏹ Ende um', '', 26);
+        $this->RegisterVariableInteger('ElapsedTime', '⏱ verstrichene Zeit', '', 27);
         $this->RegisterVariableInteger('RemainingTime', '⏳ verbleibende Zeit', '', 28);
         $this->RegisterVariableInteger('ProgressPct', '📈 Arbeitsfortschritt', '', 29);
         
-        $this->RegisterVariableInteger('Temperature', '🌡️ Temperatur', '', 31);
-        $this->RegisterVariableInteger('SpinSpeed', '🌪️ Drehzahl', '', 32);
+        $this->RegisterVariableInteger('Temperature', '🌡 Temperatur', '', 31);
+        $this->RegisterVariableInteger('SpinSpeed', '🌪 Drehzahl', '', 32);
         $this->RegisterVariableBoolean('Door', '🚪 Tür', '', 33);
         
-        $this->RegisterVariableInteger('TwinDos1', '💧 TwinDos 1 Füllstand', '', 40);
-        $this->RegisterVariableInteger('TwinDos2', '💧 TwinDos 2 Füllstand', '', 45);
+        $this->RegisterVariableInteger('TwinDos1', 'TwinDos 1 Füllstand', '', 40);
+        $this->RegisterVariableInteger('TwinDos2', 'TwinDos 2 Füllstand', '', 45);
         
         $this->RegisterVariableFloat('CurrentWaterConsumption', '🚰 aktueller Wasserverbrauch', '', 50);
         $this->RegisterVariableFloat('CurrentEnergyConsumption', '⚡ aktueller Energieverbrauch', '', 55);
@@ -52,82 +52,82 @@ $this->RegisterPropertyString('DeviceID', '');
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Information'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Information'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SignalFailure'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Alert'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Alert'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StartTime'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Clock'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('FinishTime'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Clock'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ElapsedTime'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' min',
-            'ICON' => 'Clock'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> 'min',
+            'ICON'=> 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' min',
-            'ICON' => 'Clock'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> 'min',
+            'ICON'=> 'Clock'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('ProgressPct'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' %',
-            'ICON' => 'Intensity'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> '%',
+            'ICON'=> 'Intensity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temperature'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' °C',
-            'ICON' => 'Temperature'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> '°C',
+            'ICON'=> 'Temperature'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('SpinSpeed'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' U/min',
-            'ICON' => 'Motion'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> 'U/min',
+            'ICON'=> 'Motion'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Door'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Window'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Window'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentWaterConsumption'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' l',
-            'ICON' => 'Drop'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> 'l',
+            'ICON'=> 'Drop'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('CurrentEnergyConsumption'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' kWh',
-            'ICON' => 'Electricity'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> 'kWh',
+            'ICON'=> 'Electricity'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos1'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' %',
-            'ICON' => 'Drop'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> '%',
+            'ICON'=> 'Drop'
         ]);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TwinDos2'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX' => ' %',
-            'ICON' => 'Drop'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> '%',
+            'ICON'=> 'Drop'
         ]);
     }
 
@@ -155,9 +155,9 @@ $this->RegisterPropertyString('DeviceID', '');
     private function FetchFillingLevels($deviceId)
     {
         $payload = [
-            'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
-            'Command' => 'ApiGet',
-            'Endpoint' => '/v1/devices/' . urlencode($deviceId) . '/fillingLevels'
+            'DataID'=> '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+            'Command'=> 'ApiGet',
+            'Endpoint'=> '/v1/devices/'. urlencode($deviceId) . '/fillingLevels'
         ];
         
         $result = $this->SendDataToParent(json_encode($payload));
@@ -177,7 +177,7 @@ $this->RegisterPropertyString('DeviceID', '');
 
     protected function Log(string $text): void
     {
-        IPS_LogMessage('SmartVillaKunterbunt', 'MieleWasher: ' . $text);
+        IPS_LogMessage('SmartVillaKunterbunt', 'MieleWasher: '. $text);
     }
 
     private function ProcessDeviceData(array $deviceData)
@@ -188,7 +188,7 @@ $this->RegisterPropertyString('DeviceID', '');
             if (isset($state['status']['value_localized'])) {
                 $newStatus = (string)$state['status']['value_localized'];
                 if (@$this->GetValue('StatusText') !== $newStatus) {
-                    $this->Log("Status geändert: " . $newStatus);
+                    $this->Log("Status geändert: ". $newStatus);
                 }
                 $this->SetValue('StatusText', $newStatus);
             }
@@ -322,16 +322,16 @@ $this->RegisterPropertyString('DeviceID', '');
         }
 
         $payload = [
-            'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
-            'Command' => 'ApiGet',
-            'Endpoint' => '/v1/devices/' . urlencode($deviceId) . '/state'
+            'DataID'=> '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+            'Command'=> 'ApiGet',
+            'Endpoint'=> '/v1/devices/'. urlencode($deviceId) . '/state'
         ];
         
         $result = $this->SendDataToParent(json_encode($payload));
         $state = json_decode($result, true);
 
         if ($state && is_array($state) && !isset($state['message'])) {
-            $this->ProcessDeviceData(['state' => $state]);
+            $this->ProcessDeviceData(['state'=> $state]);
             
             if ($this->ReadPropertyBoolean('EnableTwinDos')) {
                 $this->FetchFillingLevels($deviceId);
@@ -340,7 +340,7 @@ $this->RegisterPropertyString('DeviceID', '');
             echo "Gerät erfolgreich aktualisiert!\n";
         } else {
             if (isset($state['message'])) {
-                echo "Fehler beim Update: " . $state['message'] . "\n";
+                echo "Fehler beim Update: ". $state['message'] . "\n";
             } else {
                 echo "Fehler beim Update: Konnte keine Daten abrufen. Bitte API-Verbindung und Device ID prüfen.\n";
             }
@@ -349,7 +349,7 @@ $this->RegisterPropertyString('DeviceID', '');
 
     protected function LogMessage(string $Message, int $Type): bool
     {
-        IPS_LogMessage('SmartVillaKunterbunt', 'MieleWasher: ' . $Message);
+        IPS_LogMessage('SmartVillaKunterbunt', 'MieleWasher: '. $Message);
         return true;
     }
 

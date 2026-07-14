@@ -21,7 +21,7 @@ $this->RegisterPropertyString('DeviceID', '');
 
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'ℹ️ Status', '', 10);
+        $this->RegisterVariableString('StatusText', 'ℹ Status', '', 10);
         $this->RegisterVariableBoolean('Light', '💡 Licht', '', 20);
         $this->EnableAction('Light');
         
@@ -35,22 +35,22 @@ $this->RegisterPropertyString('DeviceID', '');
 
         // Symcon 8 Custom Presentations
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('StatusText'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Information'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Information'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Light'), [
-                'PRESENTATION' => VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'ICON' => 'Bulb'
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'ICON'=> 'Bulb'
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('VentilationStep'), [
-            'PRESENTATION' => VARIABLE_PRESENTATION_SLIDER, // Slider
-            'MIN' => 0.0,
-            'MAX' => 4.0,
-            'STEP' => 1.0,
-            'SUFFIX' => ' Stufe',
-            'ICON' => 'Ventilator'
+            'PRESENTATION'=> VARIABLE_PRESENTATION_SLIDER, // Slider
+            'MIN'=> 0.0,
+            'MAX'=> 4.0,
+            'STEP'=> 1.0,
+            'SUFFIX'=> 'Stufe',
+            'ICON'=> 'Ventilator'
         ]);
     }
 
@@ -103,20 +103,20 @@ $this->RegisterPropertyString('DeviceID', '');
         }
 
         $payload = [
-            'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
-            'Command' => 'ApiGet',
-            'Endpoint' => '/v1/devices/' . urlencode($deviceId) . '/state'
+            'DataID'=> '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+            'Command'=> 'ApiGet',
+            'Endpoint'=> '/v1/devices/'. urlencode($deviceId) . '/state'
         ];
         
         $result = $this->SendDataToParent(json_encode($payload));
         $state = json_decode($result, true);
 
         if ($state && is_array($state) && !isset($state['message'])) {
-            $this->ProcessDeviceData(['state' => $state]);
+            $this->ProcessDeviceData(['state'=> $state]);
             echo "Gerät erfolgreich aktualisiert!\n";
         } else {
             if (isset($state['message'])) {
-                echo "Fehler beim Update: " . $state['message'] . "\n";
+                echo "Fehler beim Update: ". $state['message'] . "\n";
             } else {
                 echo "Fehler beim Update: Konnte keine Daten abrufen. Bitte API-Verbindung und Device ID prüfen.\n";
             }
@@ -125,7 +125,7 @@ $this->RegisterPropertyString('DeviceID', '');
 
     protected function Log(string $text): void
     {
-        IPS_LogMessage('SmartVillaKunterbunt', 'MieleHood: ' . $text);
+        IPS_LogMessage('SmartVillaKunterbunt', 'MieleHood: '. $text);
     }
 
     public function RequestAction(string $Ident, $Value): void{
@@ -142,12 +142,12 @@ $this->RegisterPropertyString('DeviceID', '');
             case 'Light':
                 // Miele API: 1=On, 2=Off
                 $actionData['light'] = $Value ? 1 : 2;
-                $this->Log("Schalte Licht: " . ($Value ? 'An' : 'Aus'));
+                $this->Log("Schalte Licht: ". ($Value ? 'An': 'Aus'));
                 break;
             
             case 'VentilationStep':
                 $actionData['ventilationStep'] = $Value;
-                $this->Log("Setze Lüfterstufe: " . $Value);
+                $this->Log("Setze Lüfterstufe: ". $Value);
                 break;
 
             default:
@@ -157,10 +157,10 @@ $this->RegisterPropertyString('DeviceID', '');
         if (!empty($actionData)) {
             // Forward to Splitter
             $payload = [
-                'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
-                'Command' => 'ExecuteAction',
-                'DeviceID' => $deviceId,
-                'ActionData' => $actionData
+                'DataID'=> '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+                'Command'=> 'ExecuteAction',
+                'DeviceID'=> $deviceId,
+                'ActionData'=> $actionData
             ];
             
             $result = $this->SendDataToParent(json_encode($payload));
@@ -177,7 +177,7 @@ $this->RegisterPropertyString('DeviceID', '');
 
     protected function LogMessage(string $Message, int $Type): bool
     {
-        IPS_LogMessage('SmartVillaKunterbunt', 'MieleHood: ' . $Message);
+        IPS_LogMessage('SmartVillaKunterbunt', 'MieleHood: '. $Message);
         return true;
     }
 
