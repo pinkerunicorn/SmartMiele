@@ -26,7 +26,7 @@ class MieleHob extends IPSModuleStrict
         // Wir legen prophylaktisch 4 an
         for ($i=1; $i<=4; $i++) {
             $this->RegisterVariableInteger('Plate'. $i, '♨ Kochzone '. $i, '', 20 + $i);
-            IPS_SetIcon($this->GetIDForIdent('Plate'), 'Flame');
+            IPS_SetIcon($this->GetIDForIdent('Plate'. $i), 'Flame');
         }
     }
 
@@ -53,7 +53,7 @@ class MieleHob extends IPSModuleStrict
 
         for ($i = 1; $i <= $plates; $i++) {
             $this->RegisterVariableInteger('Plate'. $i, 'Kochzone '. $i, '', 20 + $i);
-            IPS_SetIcon($this->GetIDForIdent('Plate'), 'Flame');
+            IPS_SetIcon($this->GetIDForIdent('Plate'. $i), 'Flame');
             IPS_SetVariableCustomProfile($this->GetIDForIdent('Plate'. $i), 'Miele.PlateLevel');
         }
     }
