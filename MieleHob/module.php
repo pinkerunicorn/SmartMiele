@@ -20,11 +20,13 @@ class MieleHob extends IPSModuleStrict
 
         // Variables
         $this->RegisterVariableString('StatusText', 'ℹ Status', '', 10);
+        IPS_SetIcon($this->GetIDForIdent('StatusText'), 'Information');
         
         // Dynamisch je nach Modell Kochzonen anlegen (meistens 4-6)
         // Wir legen prophylaktisch 4 an
         for ($i=1; $i<=4; $i++) {
             $this->RegisterVariableInteger('Plate'. $i, '♨ Kochzone '. $i, '', 20 + $i);
+            IPS_SetIcon($this->GetIDForIdent('Plate'), 'Flame');
         }
     }
 
@@ -51,6 +53,7 @@ class MieleHob extends IPSModuleStrict
 
         for ($i = 1; $i <= $plates; $i++) {
             $this->RegisterVariableInteger('Plate'. $i, 'Kochzone '. $i, '', 20 + $i);
+            IPS_SetIcon($this->GetIDForIdent('Plate'), 'Flame');
             IPS_SetVariableCustomProfile($this->GetIDForIdent('Plate'. $i), 'Miele.PlateLevel');
         }
     }

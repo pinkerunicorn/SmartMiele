@@ -22,10 +22,13 @@ $this->RegisterPropertyString('DeviceID', '');
         
         // Variables
         $this->RegisterVariableString('StatusText', 'ℹ Status', '', 10);
+        IPS_SetIcon($this->GetIDForIdent('StatusText'), 'Information');
         $this->RegisterVariableBoolean('Light', '💡 Licht', '', 20);
+        IPS_SetIcon($this->GetIDForIdent('Light'), 'Bulb');
         $this->EnableAction('Light');
         
         $this->RegisterVariableInteger('VentilationStep', '💨 Lüfterstufe', '', 30);
+        IPS_SetIcon($this->GetIDForIdent('VentilationStep'), 'Wind');
         $this->EnableAction('VentilationStep');
     }
 

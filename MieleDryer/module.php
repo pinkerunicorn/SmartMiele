@@ -22,21 +22,33 @@ $this->RegisterPropertyString('DeviceID', '');
         
         // Variables
         $this->RegisterVariableString('StatusText', 'ℹ Status', '', 10);
+        IPS_SetIcon($this->GetIDForIdent('StatusText'), 'Information');
         $this->RegisterVariableBoolean('SignalInfo', '🔔 Hinweis vorhanden', '', 11);
+        IPS_SetIcon($this->GetIDForIdent('SignalInfo'), 'Information');
         $this->RegisterVariableBoolean('SignalFailure', 'Fehler erkannt', '', 12);
+        IPS_SetIcon($this->GetIDForIdent('SignalFailure'), 'Warning');
         
         $this->RegisterVariableString('ProgramName', '📝 Programmbezeichnung', '', 21);
+        IPS_SetIcon($this->GetIDForIdent('ProgramName'), 'Script');
         $this->RegisterVariableString('ProgramPhaseText', '🔄 Programm-Phase', '', 22);
+        IPS_SetIcon($this->GetIDForIdent('ProgramPhaseText'), 'Script');
         
         $this->RegisterVariableInteger('StartTime', '▶ Start um', '', 25);
+        IPS_SetIcon($this->GetIDForIdent('StartTime'), 'Clock');
         $this->RegisterVariableInteger('FinishTime', '⏹ Ende um', '', 26);
+        IPS_SetIcon($this->GetIDForIdent('FinishTime'), 'Clock');
         $this->RegisterVariableInteger('ElapsedTime', '⏱ verstrichene Zeit', '', 27);
+        IPS_SetIcon($this->GetIDForIdent('ElapsedTime'), 'Clock');
         $this->RegisterVariableInteger('RemainingTime', '⏳ verbleibende Zeit', '', 28);
+        IPS_SetIcon($this->GetIDForIdent('RemainingTime'), 'Clock');
         $this->RegisterVariableInteger('ProgressPct', '📈 Arbeitsfortschritt', '', 29);
+        IPS_SetIcon($this->GetIDForIdent('ProgressPct'), 'Gauge');
         
         $this->RegisterVariableBoolean('Door', '🚪 Tür', '', 33);
+        IPS_SetIcon($this->GetIDForIdent('Door'), 'Window');
         
         $this->RegisterVariableFloat('CurrentEnergyConsumption', '⚡ aktueller Energieverbrauch', '', 55);
+        IPS_SetIcon($this->GetIDForIdent('CurrentEnergyConsumption'), 'Energy');
     }
 
     public function ApplyChanges(): void{
