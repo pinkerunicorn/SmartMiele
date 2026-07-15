@@ -42,6 +42,8 @@ $this->RegisterPropertyString('DeviceID', '');
         IPS_SetIcon($this->GetIDForIdent('ElapsedTime'), 'Clock');
         $this->RegisterVariableInteger('RemainingTime', '⏳ verbleibende Zeit', '', 28);
         IPS_SetIcon($this->GetIDForIdent('RemainingTime'), 'Clock');
+        $this->RegisterVariableInteger('RemainingTimeSeconds', '⏳ verbleibende Zeit (Sekunden)', '', 28);
+        IPS_SetIcon($this->GetIDForIdent('RemainingTimeSeconds'), 'Clock');
         $this->RegisterVariableInteger('ProgressPct', '📈 Arbeitsfortschritt', '', 29);
         IPS_SetIcon($this->GetIDForIdent('ProgressPct'), 'Gauge');
         
@@ -97,6 +99,12 @@ $this->RegisterPropertyString('DeviceID', '');
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTime'), [
                 'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
             'SUFFIX'=> 'min',
+            'ICON'=> 'Clock'
+        ]);
+        
+        IPS_SetVariableCustomPresentation($this->GetIDForIdent('RemainingTimeSeconds'), [
+                'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
+            'SUFFIX'=> 's',
             'ICON'=> 'Clock'
         ]);
         
@@ -324,6 +332,7 @@ $this->RegisterPropertyString('DeviceID', '');
 
             $this->SetValue('ElapsedTime', (int)$elapsedMinutes);
             $this->SetValue('RemainingTime', (int)$remMinutes);
+            $this->SetValue('RemainingTimeSeconds', (int)($remMinutes * 60));
             $this->SetValue('StartTime', (int)$startTime);
             $this->SetValue('FinishTime', (int)$finishTime);
             $this->SetValue('ProgressPct', (int)$progress);
