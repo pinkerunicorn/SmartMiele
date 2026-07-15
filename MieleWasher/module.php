@@ -22,36 +22,36 @@ $this->RegisterPropertyString('DeviceID', '');
 
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'ℹ Status', '', 10);
+        $this->RegisterVariableString('StatusText', 'Status', '', 10);
         IPS_SetIcon($this->GetIDForIdent('StatusText'), 'Information');
-        $this->RegisterVariableBoolean('SignalInfo', '🔔 Hinweis vorhanden', '', 11);
+        $this->RegisterVariableBoolean('SignalInfo', 'Hinweis vorhanden', '', 11);
         IPS_SetIcon($this->GetIDForIdent('SignalInfo'), 'Information');
         $this->RegisterVariableBoolean('SignalFailure', 'Fehler erkannt', '', 12);
         IPS_SetIcon($this->GetIDForIdent('SignalFailure'), 'Warning');
         
-        $this->RegisterVariableString('ProgramName', '📝 Programmbezeichnung', '', 21);
+        $this->RegisterVariableString('ProgramName', 'Programmbezeichnung', '', 21);
         IPS_SetIcon($this->GetIDForIdent('ProgramName'), 'Script');
-        $this->RegisterVariableString('ProgramPhaseText', '🔄 Programm-Phase', '', 22);
+        $this->RegisterVariableString('ProgramPhaseText', 'Programm-Phase', '', 22);
         IPS_SetIcon($this->GetIDForIdent('ProgramPhaseText'), 'Script');
         
-        $this->RegisterVariableInteger('StartTime', '▶ Start um', '', 25);
+        $this->RegisterVariableInteger('StartTime', 'Start um', '', 25);
         IPS_SetIcon($this->GetIDForIdent('StartTime'), 'Clock');
-        $this->RegisterVariableInteger('FinishTime', '⏹ Ende um', '', 26);
+        $this->RegisterVariableInteger('FinishTime', 'Ende um', '', 26);
         IPS_SetIcon($this->GetIDForIdent('FinishTime'), 'Clock');
-        $this->RegisterVariableInteger('ElapsedTime', '⏱ verstrichene Zeit', '', 27);
+        $this->RegisterVariableInteger('ElapsedTime', 'verstrichene Zeit', '', 27);
         IPS_SetIcon($this->GetIDForIdent('ElapsedTime'), 'Clock');
-        $this->RegisterVariableInteger('RemainingTime', '⏳ verbleibende Zeit', '', 28);
+        $this->RegisterVariableInteger('RemainingTime', 'verbleibende Zeit', '', 28);
         IPS_SetIcon($this->GetIDForIdent('RemainingTime'), 'Clock');
-        $this->RegisterVariableInteger('RemainingTimeSeconds', '⏳ verbleibende Zeit (Sekunden)', '', 28);
+        $this->RegisterVariableInteger('RemainingTimeSeconds', 'verbleibende Zeit (Sekunden)', '', 28);
         IPS_SetIcon($this->GetIDForIdent('RemainingTimeSeconds'), 'Clock');
-        $this->RegisterVariableInteger('ProgressPct', '📈 Arbeitsfortschritt', '', 29);
+        $this->RegisterVariableInteger('ProgressPct', 'Arbeitsfortschritt', '', 29);
         IPS_SetIcon($this->GetIDForIdent('ProgressPct'), 'Gauge');
         
-        $this->RegisterVariableInteger('Temperature', '🌡 Temperatur', '', 31);
+        $this->RegisterVariableInteger('Temperature', 'Temperatur', '', 31);
         IPS_SetIcon($this->GetIDForIdent('Temperature'), 'Temperature');
-        $this->RegisterVariableInteger('SpinSpeed', '🌪 Drehzahl', '', 32);
+        $this->RegisterVariableInteger('SpinSpeed', 'Drehzahl', '', 32);
         IPS_SetIcon($this->GetIDForIdent('SpinSpeed'), 'Speedo');
-        $this->RegisterVariableBoolean('Door', '🚪 Tür', '', 33);
+        $this->RegisterVariableBoolean('Door', 'Tür', '', 33);
         IPS_SetIcon($this->GetIDForIdent('Door'), 'Window');
         
         $this->RegisterVariableInteger('TwinDos1', 'TwinDos 1 Füllstand', '', 40);
@@ -59,9 +59,9 @@ $this->RegisterPropertyString('DeviceID', '');
         $this->RegisterVariableInteger('TwinDos2', 'TwinDos 2 Füllstand', '', 45);
         IPS_SetIcon($this->GetIDForIdent('TwinDos2'), 'Drops');
         
-        $this->RegisterVariableFloat('CurrentWaterConsumption', '🚰 aktueller Wasserverbrauch', '', 50);
+        $this->RegisterVariableFloat('CurrentWaterConsumption', 'aktueller Wasserverbrauch', '', 50);
         IPS_SetIcon($this->GetIDForIdent('CurrentWaterConsumption'), 'Drop');
-        $this->RegisterVariableFloat('CurrentEnergyConsumption', '⚡ aktueller Energieverbrauch', '', 55);
+        $this->RegisterVariableFloat('CurrentEnergyConsumption', 'aktueller Energieverbrauch', '', 55);
         IPS_SetIcon($this->GetIDForIdent('CurrentEnergyConsumption'), 'Energy');
     }
 

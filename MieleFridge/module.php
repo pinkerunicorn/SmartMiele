@@ -21,19 +21,19 @@ $this->RegisterPropertyString('DeviceID', '');
 
         
         // Variables
-        $this->RegisterVariableString('StatusText', 'ℹ Status', '', 15);
+        $this->RegisterVariableString('StatusText', 'Status', '', 15);
         IPS_SetIcon($this->GetIDForIdent('StatusText'), 'Information');
         
-        $this->RegisterVariableFloat('Temp1', '🌡 Ist-Temperatur (Zone 1)', '', 20);
+        $this->RegisterVariableFloat('Temp1', 'Ist-Temperatur (Zone 1)', '', 20);
         IPS_SetIcon($this->GetIDForIdent('Temp1'), 'Temperature');
-        $this->RegisterVariableFloat('TargetTemp1', '🎯 Ziel-Temperatur (Zone 1)', '', 25);
+        $this->RegisterVariableFloat('TargetTemp1', 'Ziel-Temperatur (Zone 1)', '', 25);
         IPS_SetIcon($this->GetIDForIdent('TargetTemp1'), 'Temperature');
         $this->EnableAction('TargetTemp1');
         
-        $this->RegisterVariableBoolean('DoorOpen', '🚪 Tür geöffnet', '', 30);
+        $this->RegisterVariableBoolean('DoorOpen', 'Tür geöffnet', '', 30);
         IPS_SetIcon($this->GetIDForIdent('DoorOpen'), 'Window');
 
-        $this->RegisterVariableBoolean('SuperCooling', '❄ Schnellkühlen', '', 35);
+        $this->RegisterVariableBoolean('SuperCooling', 'Schnellkühlen', '', 35);
         IPS_SetIcon($this->GetIDForIdent('SuperCooling'), 'Snowflake');
         $this->EnableAction('SuperCooling');
     }
