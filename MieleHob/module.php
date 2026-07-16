@@ -85,8 +85,6 @@ class MieleHob extends IPSModuleStrict
 
     private function ProcessDeviceData(array $deviceData): void
     {
-        IPS_LogMessage('MieleHobDebug', json_encode($deviceData));
-        
         if (isset($deviceData['state'])) {
             $state = $deviceData['state'];
 
