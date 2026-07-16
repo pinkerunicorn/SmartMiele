@@ -24,9 +24,9 @@ $this->RegisterPropertyString('DeviceID', '');
         $this->RegisterVariableString('StatusText', 'Status', '', 15);
         IPS_SetIcon($this->GetIDForIdent('StatusText'), 'Information');
         
-        $this->RegisterVariableFloat('Temp1', 'Ist-Temperatur (Zone 1)', '', 20);
+        $this->RegisterVariableInteger('Temp1', 'Ist-Temperatur (Zone 1)', '', 20);
         IPS_SetIcon($this->GetIDForIdent('Temp1'), 'Temperature');
-        $this->RegisterVariableFloat('TargetTemp1', 'Ziel-Temperatur (Zone 1)', '', 25);
+        $this->RegisterVariableInteger('TargetTemp1', 'Ziel-Temperatur (Zone 1)', '', 25);
         IPS_SetIcon($this->GetIDForIdent('TargetTemp1'), 'Temperature');
         $this->EnableAction('TargetTemp1');
         
@@ -61,9 +61,9 @@ $this->RegisterPropertyString('DeviceID', '');
             'SUFFIX'=> ' °C',
             'ICON'=> 'Temperature',
             'DIGITS'=> 0,
-            'MIN'=> 2.0,
-            'MAX'=> 9.0,
-            'STEP'=> 1.0
+            'MIN'=> 2,
+            'MAX'=> 9,
+            'STEP'=> 1
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('DoorOpen'), [
@@ -109,12 +109,12 @@ $this->RegisterPropertyString('DeviceID', '');
             }
 
             if (isset($state['temperature'][0]['value_raw'])) {
-                $valTemp = $state['temperature'][0]['value_raw'] / 100.0;
+                $valTemp = (int)round($state['temperature'][0]['value_raw'] / 100.0);
                 $this->SendDebug('Temp Update', 'Raw: '. $valTemp . 'Type: '. gettype($valTemp), 0);
-                $this->SetValue('Temp1', (float)$valTemp);
+                $this->SetValue('Temp1', $valTemp);
             }
             if (isset($state['targetTemperature'][0]['value_raw'])) {
-                $valTarget = $state['targetTemperature'][0]['value_raw'] / 100.0;
+                $valTarget = (int)round($state['targetTemperature'][0]['value_raw'] / 100.0);
                 $this->SendDebug('TargetTemp Update', 'Raw: '. $valTarget . 'Type: '. gettype($valTarget), 0);
                 
                 $varID = @$this->GetIDForIdent('TargetTemp1');
@@ -126,7 +126,7 @@ $this->RegisterPropertyString('DeviceID', '');
                 }
 
                 try {
-                    $this->SetValue('TargetTemp1', (float)$valTarget);
+                    $this->SetValue('TargetTemp1', $valTarget);
                 } catch (\Throwable $e) {
                     $this->SendDebug('TargetTemp Error', $e->getMessage(), 0);
                     IPS_LogMessage('SmartVillaKunterbunt', 'MieleFridge: '. 'Error setting TargetTemp1: '. $e->getMessage());
