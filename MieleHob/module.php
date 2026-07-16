@@ -25,7 +25,7 @@ class MieleHob extends IPSModuleStrict
         // Dynamisch je nach Modell Kochzonen anlegen (meistens 4-6)
         // Wir legen prophylaktisch 4 an
         for ($i=1; $i<=4; $i++) {
-            $this->RegisterVariableInteger('Plate'. $i, 'Kochzone '. $i, '', 20 + $i);
+            $this->RegisterVariableString('Plate'. $i, 'Kochzone '. $i, '', 20 + $i);
             IPS_SetIcon($this->GetIDForIdent('Plate'. $i), 'Flame');
         }
     }
@@ -52,9 +52,17 @@ class MieleHob extends IPSModuleStrict
         }
 
         for ($i = 1; $i <= $plates; $i++) {
-            $this->RegisterVariableInteger('Plate'. $i, 'Kochzone '. $i, '', 20 + $i);
-            IPS_SetIcon($this->GetIDForIdent('Plate'. $i), 'Flame');
-            IPS_SetVariableCustomProfile($this->GetIDForIdent('Plate'. $i), 'Miele.PlateLevel');
+            $ident = 'Plate'. $i;
+            $id = @$this->GetIDForIdent($ident);
+            if ($id !== false && IPS_VariableExists($id)) {
+                $var = IPS_GetVariable($id);
+                if ($var['VariableType'] !== 3 /* String */) {
+                    $this->UnregisterVariable($ident);
+                }
+            }
+            
+            $this->RegisterVariableString($ident, 'Kochzone '. $i, '', 20 + $i);
+            IPS_SetIcon($this->GetIDForIdent($ident), 'Flame');
         }
     }
 
@@ -87,8 +95,8 @@ class MieleHob extends IPSModuleStrict
             if (isset($state['plateStep']) && is_array($state['plateStep'])) {
                 $plates = $this->ReadPropertyInteger('PlateCount');
                 for ($i = 0; $i < $plates; $i++) {
-                    if (isset($state['plateStep'][$i]['value_raw'])) {
-                        $this->SetValue('Plate'. ($i + 1), (int)$state['plateStep'][$i]['value_raw']);
+                    if (isset($state['plateStep'][$i]['value_localized'])) {
+                        $this->SetValue('Plate'. ($i + 1), (string)$state['plateStep'][$i]['value_localized']);
                     }
                 }
             }
