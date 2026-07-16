@@ -1,21 +1,19 @@
 {
-    "id":  "{28C2EB1F-7C5B-41F7-8537-BA0977BACCA0}",
-    "name":  "Miele Hob",
-    "type":  3,
-    "vendor":  "Miele",
-    "aliases":  [
-                    "Miele Hob"
-                ],
-    "parentRequirements":  [
-                               "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-                           ],
-    "childRequirements":  [
-
-                          ],
-    "implemented":  [
-                        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-                    ],
-    "prefix":  "SM",
-    "author":  "Florian GraÃŸinger",
-    "url":  "https://github.com/pinkerunicorn/"
+    "id": "{28C2EB1F-7C5B-41F7-8537-BA0977BACCA0}",
+    "name": "Miele Hob",
+    "type": 3,
+    "vendor": "Miele",
+    "aliases": [
+        "Miele Hob"
+    ],
+    "parentRequirements": [
+        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+    ],
+    "childRequirements": [],
+    "implemented": [
+        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+    ],
+    "prefix": "SM",
+    "author": "Florian Graßinger",
+    "url": "https://github.com/pinkerunicorn/"
 }

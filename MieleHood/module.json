@@ -1,21 +1,19 @@
 {
-    "id":  "{C8151DDF-F85F-41AB-8EBA-5D43386D61A3}",
-    "name":  "Miele Hood",
-    "type":  3,
-    "vendor":  "Miele",
-    "aliases":  [
-                    "Miele Hood"
-                ],
-    "parentRequirements":  [
-                               "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-                           ],
-    "childRequirements":  [
-
-                          ],
-    "implemented":  [
-                        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-                    ],
-    "prefix":  "SM",
-    "author":  "Florian GraÃŸinger",
-    "url":  "https://github.com/pinkerunicorn/"
+    "id": "{C8151DDF-F85F-41AB-8EBA-5D43386D61A3}",
+    "name": "Miele Hood",
+    "type": 3,
+    "vendor": "Miele",
+    "aliases": [
+        "Miele Hood"
+    ],
+    "parentRequirements": [
+        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+    ],
+    "childRequirements": [],
+    "implemented": [
+        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+    ],
+    "prefix": "SM",
+    "author": "Florian Graßinger",
+    "url": "https://github.com/pinkerunicorn/"
 }
