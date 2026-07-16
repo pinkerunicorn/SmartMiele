@@ -1,19 +1,21 @@
 {
-    "id": "{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}",
-    "name": "Miele Splitter",
-    "type": 2,
-    "vendor": "Miele",
-    "aliases": [
-        "Miele Splitter"
-    ],
-    "parentRequirements": [],
-    "childRequirements": [
-        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-    ],
-    "implemented": [
-        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-    ],
-    "prefix": "SM",
-    "author": "Florian Graßinger",
-    "url": "https://github.com/pinkerunicorn/"
+    "id":  "{16E6F7DB-7B41-47D4-A2AD-DA0D029DDCB5}",
+    "name":  "Miele Splitter",
+    "type":  2,
+    "vendor":  "Miele",
+    "aliases":  [
+                    "Miele Splitter"
+                ],
+    "parentRequirements":  [
+
+                           ],
+    "childRequirements":  [
+                              "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+                          ],
+    "implemented":  [
+                        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+                    ],
+    "prefix":  "SM",
+    "author":  "Florian GraÃŸinger",
+    "url":  "https://github.com/pinkerunicorn/"
 }

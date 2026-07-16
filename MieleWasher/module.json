@@ -1,19 +1,21 @@
 {
-    "id": "{6FDD3FCD-8EF9-4DC7-BCFA-7D5626111B98}",
-    "name": "Miele Washer",
-    "type": 3,
-    "vendor": "Miele",
-    "aliases": [
-        "Miele Washer"
-    ],
-    "parentRequirements": [
-        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-    ],
-    "childRequirements": [],
-    "implemented": [
-        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-    ],
-    "prefix": "SM",
-    "author": "Florian Graßinger",
-    "url": "https://github.com/pinkerunicorn/"
+    "id":  "{6FDD3FCD-8EF9-4DC7-BCFA-7D5626111B98}",
+    "name":  "Miele Washer",
+    "type":  3,
+    "vendor":  "Miele",
+    "aliases":  [
+                    "Miele Washer"
+                ],
+    "parentRequirements":  [
+                               "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+                           ],
+    "childRequirements":  [
+
+                          ],
+    "implemented":  [
+                        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+                    ],
+    "prefix":  "SM",
+    "author":  "Florian GraÃŸinger",
+    "url":  "https://github.com/pinkerunicorn/"
 }

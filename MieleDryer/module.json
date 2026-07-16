@@ -1,19 +1,21 @@
 {
-    "id": "{8333D436-95EF-4FD1-8620-705393C466AE}",
-    "name": "Miele Dryer",
-    "type": 3,
-    "vendor": "Miele",
-    "aliases": [
-        "Miele Dryer"
-    ],
-    "parentRequirements": [
-        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-    ],
-    "childRequirements": [],
-    "implemented": [
-        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
-    ],
-    "prefix": "SM",
-    "author": "Florian Graßinger",
-    "url": "https://github.com/pinkerunicorn/"
+    "id":  "{8333D436-95EF-4FD1-8620-705393C466AE}",
+    "name":  "Miele Dryer",
+    "type":  3,
+    "vendor":  "Miele",
+    "aliases":  [
+                    "Miele Dryer"
+                ],
+    "parentRequirements":  [
+                               "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+                           ],
+    "childRequirements":  [
+
+                          ],
+    "implemented":  [
+                        "{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}"
+                    ],
+    "prefix":  "SM",
+    "author":  "Florian GraÃŸinger",
+    "url":  "https://github.com/pinkerunicorn/"
 }
