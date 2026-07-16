@@ -51,8 +51,7 @@ $this->RegisterPropertyString('DeviceID', '');
         $tempPresentation = [
                 'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
             'SUFFIX'=> ' °C',
-            'ICON'=> 'Temperature',
-            'DIGITS'=> 1
+            'ICON'=> 'Temperature'
         ];
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temp1'), $tempPresentation);
         
@@ -60,7 +59,6 @@ $this->RegisterPropertyString('DeviceID', '');
                 'PRESENTATION'=> VARIABLE_PRESENTATION_SLIDER,
             'SUFFIX'=> ' °C',
             'ICON'=> 'Temperature',
-            'DIGITS'=> 0,
             'MIN'=> 2,
             'MAX'=> 9,
             'STEP'=> 1
