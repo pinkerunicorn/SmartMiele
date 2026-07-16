@@ -50,15 +50,20 @@ $this->RegisterPropertyString('DeviceID', '');
         
         $tempPresentation = [
                 'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX'=> '°C',
-            'ICON'=> 'Temperature'
+            'SUFFIX'=> ' °C',
+            'ICON'=> 'Temperature',
+            'DIGITS'=> 1
         ];
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('Temp1'), $tempPresentation);
         
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('TargetTemp1'), [
                 'PRESENTATION'=> VARIABLE_PRESENTATION_VALUE_PRESENTATION,
-            'SUFFIX'=> '°C',
-            'ICON'=> 'Temperature'
+            'SUFFIX'=> ' °C',
+            'ICON'=> 'Temperature',
+            'DIGITS'=> 1,
+            'MIN'=> 1,
+            'MAX'=> 15,
+            'STEP'=> 1
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('DoorOpen'), [
@@ -104,12 +109,12 @@ $this->RegisterPropertyString('DeviceID', '');
             }
 
             if (isset($state['temperature'][0]['value_raw'])) {
-                $valTemp = $state['temperature'][0]['value_raw'];
+                $valTemp = $state['temperature'][0]['value_raw'] / 100.0;
                 $this->SendDebug('Temp Update', 'Raw: '. $valTemp . 'Type: '. gettype($valTemp), 0);
                 $this->SetValue('Temp1', (float)$valTemp);
             }
             if (isset($state['targetTemperature'][0]['value_raw'])) {
-                $valTarget = $state['targetTemperature'][0]['value_raw'];
+                $valTarget = $state['targetTemperature'][0]['value_raw'] / 100.0;
                 $this->SendDebug('TargetTemp Update', 'Raw: '. $valTarget . 'Type: '. gettype($valTarget), 0);
                 
                 $varID = @$this->GetIDForIdent('TargetTemp1');
@@ -176,7 +181,7 @@ $this->RegisterPropertyString('DeviceID', '');
                 $actionData['targetTemperature'] = [
                     [
                         'zone'=> 1,
-                        'value'=> $Value
+                        'value'=> (int)round($Value * 100)
                     ]
                 ];
                 break;
