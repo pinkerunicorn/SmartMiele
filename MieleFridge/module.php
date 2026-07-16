@@ -60,9 +60,9 @@ $this->RegisterPropertyString('DeviceID', '');
                 'PRESENTATION'=> VARIABLE_PRESENTATION_SLIDER,
             'SUFFIX'=> ' °C',
             'ICON'=> 'Temperature',
-            'DIGITS'=> 1,
-            'MIN'=> 1,
-            'MAX'=> 15,
+            'DIGITS'=> 0,
+            'MIN'=> 2,
+            'MAX'=> 9,
             'STEP'=> 1
         ]);
 
