@@ -61,9 +61,9 @@ $this->RegisterPropertyString('DeviceID', '');
             'SUFFIX'=> ' °C',
             'ICON'=> 'Temperature',
             'DIGITS'=> 0,
-            'MIN'=> 2,
-            'MAX'=> 9,
-            'STEP'=> 1
+            'MIN'=> 2.0,
+            'MAX'=> 9.0,
+            'STEP'=> 1.0
         ]);
 
         IPS_SetVariableCustomPresentation($this->GetIDForIdent('DoorOpen'), [
