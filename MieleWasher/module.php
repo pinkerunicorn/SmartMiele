@@ -385,6 +385,10 @@ $this->RegisterPropertyString('DeviceID', '');
 {
     "elements": [
         {
+            "type": "Label",
+            "caption": "Damit ich deine Waschmaschine finde, trag bitte hier die Miele Device ID (fabNumber) ein."
+        },
+        {
             "type": "RowLayout",
             "items": [
                 {

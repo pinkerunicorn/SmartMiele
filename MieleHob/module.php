@@ -144,6 +144,10 @@ class MieleHob extends IPSModuleStrict
 {
     "elements": [
         {
+            "type": "Label",
+            "caption": "Damit ich dein Kochfeld finde, trag bitte hier die Miele Device ID (fabNumber) ein."
+        },
+        {
             "type": "RowLayout",
             "items": [
                 {

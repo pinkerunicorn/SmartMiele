@@ -252,6 +252,10 @@ $this->RegisterPropertyString('ClientID', '');
 {
     "elements": [
         {
+            "type": "Label",
+            "caption": "Hey! Hier verbinden wir uns mit der Miele Cloud. Trag einfach deine Zugangsdaten und die API-Schlüssel ein."
+        },
+        {
             "type": "RowLayout",
             "items": [
                 {
@@ -299,6 +303,10 @@ $this->RegisterPropertyString('ClientID', '');
                     "value": "de-CH"
                 }
             ]
+        },
+        {
+            "type": "Label",
+            "caption": "Wie oft soll ich die Daten für dich frisch aus dem Netz holen?"
         },
         {
             "type": "NumberSpinner",

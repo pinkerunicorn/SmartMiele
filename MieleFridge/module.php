@@ -220,6 +220,10 @@ $this->RegisterPropertyString('DeviceID', '');
 {
     "elements": [
         {
+            "type": "Label",
+            "caption": "Damit ich deinen Kühlschrank finde, trag bitte hier die Miele Device ID (fabNumber) ein."
+        },
+        {
             "type": "RowLayout",
             "items": [
                 {
