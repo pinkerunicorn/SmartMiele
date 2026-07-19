@@ -240,8 +240,20 @@ $this->RegisterPropertyString('ClientID', '');
         return '{}';
     }
 
+    private function SLog(string $level, string $message, string $details = ''): void
+    {
+        $source = static::class;
+        $slogInstances = @IPS_GetInstanceListByModuleID('{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}');
+        if (is_array($slogInstances) && count($slogInstances) > 0) {
+            @SLOG_Log($slogInstances[0], $level, $source, $message, $details);
+        } else {
+            IPS_LogMessage('SmartVillaKunterbunt', $source . ': ' . $message);
+        }
+    }
+
     protected function LogMessage(string $Message, int $Type): bool
     {
+        $this->SLog('INFO', $Message);
         IPS_LogMessage('SmartVillaKunterbunt', 'MieleSplitter: ' . $Message);
         return true;
     }
