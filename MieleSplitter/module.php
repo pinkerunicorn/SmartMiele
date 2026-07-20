@@ -159,20 +159,6 @@ $this->RegisterPropertyString('ClientID', '');
             if (is_array($data)) {
                 // Send to children
                 $payload = [
-                    'DataID' => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
-                    'Devices' => $data
-                ];
-                $this->SendDataToChildren(json_encode($payload));
-                $this->SetStatus(102);
-            }
-        } else {
-            $this->SendDebug('FetchData', 'Error fetching data: ' . $result, 0);
-            $this->SetStatus(201); // API Error
-        }
-    }
-
-    public function ApiGet(string $endpoint)
-    {
         $token = $this->GetToken();
         if (!$token) {
             return false;
