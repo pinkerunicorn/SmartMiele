@@ -159,12 +159,28 @@ $this->RegisterPropertyString('ClientID', '');
             if (is_array($data)) {
                 // Send to children
                 $payload = [
+                    'DataID'  => '{D90209DA-6A59-4DD8-96BC-6878CE50ACCC}',
+                    'Devices' => $data
+                ];
+                $this->SendDataToChildren(json_encode($payload));
+                $this->SetStatus(102);
+            }
+        } else {
+            $this->SLog('ERROR', 'Fehler beim Abrufen der Gerätedaten (Miele API)', 'HTTP Code: ' . $httpCode . ' | Result: ' . $result);
+            $this->SendDebug('FetchData', 'Error fetching data: ' . $result, 0);
+            $this->SetStatus(201);
+        }
+    }
+
+    public function ApiGet(string $endpoint)
+    {
         $token = $this->GetToken();
         if (!$token) {
             return false;
         }
 
         $url = 'https://api.mcs3.miele.com' . $endpoint;
+
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
