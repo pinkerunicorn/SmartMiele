@@ -221,6 +221,7 @@ $this->RegisterPropertyString('ClientID', '');
             return true;
         }
         
+        $this->SLog('ERROR', "Fehler beim Ausführen der Aktion (Miele API)", "HTTP Code: " . $httpCode . " | Result: " . $result);
         return false;
     }
 
