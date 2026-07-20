@@ -89,6 +89,11 @@ $this->RegisterPropertyString('ClientID', '');
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         $result = curl_exec($ch);
+        if ($result === false) {
+            $this->SLog('ERROR', 'API-Anfrage fehlgeschlagen', curl_error($ch));
+            curl_close($ch);
+            return false;
+        }
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
@@ -139,6 +144,11 @@ $this->RegisterPropertyString('ClientID', '');
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         $result = curl_exec($ch);
+        if ($result === false) {
+            $this->SLog('ERROR', 'API-Anfrage fehlgeschlagen', curl_error($ch));
+            curl_close($ch);
+            return;
+        }
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
@@ -179,6 +189,11 @@ $this->RegisterPropertyString('ClientID', '');
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         $result = curl_exec($ch);
+        if ($result === false) {
+            $this->SLog('ERROR', 'API-Anfrage fehlgeschlagen', curl_error($ch));
+            curl_close($ch);
+            return false;
+        }
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
@@ -212,6 +227,11 @@ $this->RegisterPropertyString('ClientID', '');
         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 
         $result = curl_exec($ch);
+        if ($result === false) {
+            $this->SLog('ERROR', 'API-Anfrage fehlgeschlagen', curl_error($ch));
+            curl_close($ch);
+            return false;
+        }
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
