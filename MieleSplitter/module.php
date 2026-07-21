@@ -243,6 +243,12 @@ $this->RegisterPropertyString('ClientID', '');
             return true;
         }
         
+        $resultData = @json_decode($result, true);
+        if ($httpCode == 400 && is_array($resultData) && isset($resultData['message']) && strpos($resultData['message'], 'is not available for device') !== false) {
+            $this->SLog('WARNING', "Aktion aktuell nicht verfügbar (Miele API)", $resultData['message']);
+            return true;
+        }
+
         $this->SLog('ERROR', "Fehler beim Ausführen der Aktion (Miele API)", "HTTP Code: " . $httpCode . " | Result: " . $result);
         return false;
     }
